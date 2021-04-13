@@ -1,0 +1,7 @@
+#Directories
+.vs/
+bin/
+intermdiate-bin/
+
+#Files
+*.user
