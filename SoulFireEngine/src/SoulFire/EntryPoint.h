@@ -1,4 +1,4 @@
-//Soul Fire Engine By Ame Gilham 
+//Soul Fire Engine By Ame Gilham, inspired by The Cherno's Hazel 
 //Application.h - header file for that acts as the entry point for Soul Fire applications
 #pragma once
 #include "Application.h"

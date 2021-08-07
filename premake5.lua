@@ -15,6 +15,12 @@ workspace "Soul Fire"
 
 outputdir = "%{cfg.buildcgf}-%{cfg.system}-%{cfg.architecture}"
 
+IncludeDirTable = {}
+IncludeDirTable["GLFW"] = "SoulFireEngine/dependencies/glfw3/include"
+
+-- include the glfw premake
+include "SoulFireEngine/dependencies/glfw3"
+
 project "SoulFireEngine"
 	location "SoulFireEngine"
 	kind "SharedLib"
@@ -23,6 +29,9 @@ project "SoulFireEngine"
 	targetdir ("bin/" .. outputdir.. "/%{prj.name}")
 	objdir ("obj/" .. outputdir.. "/%{prj.name}")
 
+	pchheader "SF_PCH.h"
+	pchsource "SoulFireEngine/src/SF_PCH.cpp"
+ 
 	files
 	{
 		"%{prj.name}/src/**.h",
@@ -31,7 +40,14 @@ project "SoulFireEngine"
 
 	includedirs 
 	{
-		"%{prj.name}/dependencies/spdlog/include"
+		"%{prj.name}/src",
+		"%{prj.name}/dependencies/spdlog/include",
+		"%{IncludeDirTable.GLFW}"
+	}
+
+	links {
+		"GLFW",
+		"opengl32.lib"
 	}
 
 	filter "system:windows"

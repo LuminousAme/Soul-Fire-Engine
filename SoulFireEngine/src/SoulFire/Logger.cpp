@@ -1,5 +1,9 @@
-//Soul Fire Engine By Ame Gilham 
+//Soul Fire Engine By Ame Gilham, inspired by The Cherno's Hazel 
 //Logger.cpp - source file for the class that handles the logging system by wrapping around spdlog
+
+//precompile header
+#include "SF_PCH.h"
+
 #include "Logger.h"
 
 //include required spdlog features
