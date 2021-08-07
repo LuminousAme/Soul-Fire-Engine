@@ -34,5 +34,4 @@ namespace SoulFire {
 		console_sink = dynamic_cast<spdlog::sinks::stdout_color_sink_mt*>(s_EngineLog->sinks().back().get());
 		console_sink->set_color(spdlog::level::trace, console_sink->WHITE);
 	}
-
 }

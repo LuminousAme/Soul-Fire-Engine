@@ -9,5 +9,5 @@
 		#define SF_API __declspec(dllimport)
 	#endif
 #else 
-	#error Soul Fire is currently on supported on windows.
+	#error Soul Fire is currently on supported on windows only.
 #endif

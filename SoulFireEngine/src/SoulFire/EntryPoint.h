@@ -10,8 +10,8 @@
 extern SoulFire::Application* SoulFire::CreateApplication();
 
 int main(int argc, char** argv) {
+	//start up the logger system
 	SoulFire::Logger::Init();
-	SF_LOG_INFO("Test");
 
 	//create the application
 	auto app = SoulFire::CreateApplication();

@@ -1,5 +1,8 @@
 -- p
 
+-- Get the root directionary we are calling premake from
+local rootdir = path.getabsolute(_WORKING_DIR)
+
 workspace "Soul Fire"
 	architecture "x64"
 
@@ -42,11 +45,6 @@ project "SoulFireEngine"
 			"SF_BUILDING_DLL"
 		}
 
-		postbuildcommands
-		{
-			("{Copy} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
-		}
-
 	filter "configurations:Debug"
 		defines "SF_DEBUG"
 		symbols "On"
@@ -58,6 +56,8 @@ project "SoulFireEngine"
 	filter "configurations:Distribution"
 		defines "SF_DISTRIBUTION"
 		optimize "On"
+
+
 
 project "Sandbox"
 	location "Sandbox"
@@ -92,6 +92,11 @@ project "Sandbox"
 		defines 
 		{
 			"SF_PLATFORM_WINDOWS"
+		}
+
+		postbuildcommands
+		{
+			("{COPY} ../bin/" ..outputdir.. "/SoulFireEngine/SoulFireEngine.dll ../bin/" .. outputdir .. "/Sandbox")
 		}
 
 	filter "configurations:Debug"
