@@ -26,6 +26,9 @@ namespace SoulFire {
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* overlay);
 
+		inline static Application& GetApp() { return *s_Instance; };
+		inline Window& GetWindow() { return *m_window; };
+
 	private:
 		bool OnWindowClose(WindowCloseEvent& ev);
 
@@ -37,6 +40,10 @@ namespace SoulFire {
 
 		//the layerstack
 		LayerTree m_layerTree;
+
+	private:
+		//singleton
+		static Application* s_Instance;
 	};
 
 	// To be defined by client

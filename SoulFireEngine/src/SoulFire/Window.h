@@ -41,6 +41,9 @@ namespace SoulFire {
 		virtual void SetVSync(bool vysncOn) = 0;
 		virtual bool GetVSync() const = 0;
 
+		//function to access the window
+		virtual void* GetNativeWindowPointer() const = 0;
+
 		//function to make a new window, 
 		static Window* CreateNewWindow(const WindowDetails& details = WindowDetails());
 	};

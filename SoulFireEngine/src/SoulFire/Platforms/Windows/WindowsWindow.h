@@ -29,6 +29,8 @@ namespace SoulFire {
 		void SetVSync(bool vysncOn) override;
 		bool GetVSync() const override;
 
+		inline virtual void* GetNativeWindowPointer() const { return m_window; }
+
 	private:
 		//function for startup and shutdown
 		virtual void Startup(const WindowDetails& details);

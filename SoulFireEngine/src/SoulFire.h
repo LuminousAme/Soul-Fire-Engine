@@ -7,3 +7,5 @@
 #include "SoulFire/Application.h"
 #include "SoulFire/Logger.h"
 #include "SoulFire/Events/Event.h"
+
+#include "SoulFire/InputCodes.h"

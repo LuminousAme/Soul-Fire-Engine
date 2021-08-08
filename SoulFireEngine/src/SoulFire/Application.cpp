@@ -9,9 +9,17 @@
 //include logging
 #include "Logger.h"
 
+#include "Input.h"
+
 namespace SoulFire {
+
+	Application* Application::s_Instance = nullptr; 
+
 	Application::Application()
 	{
+		//save the singleton
+		s_Instance = this;
+
 		//create a new window
 		m_window = std::unique_ptr<Window>(Window::CreateNewWindow());
 		//sets the callback so that when the window sends an event, the OnEvent function is called
@@ -57,8 +65,15 @@ namespace SoulFire {
 			//update all of the layers
 			for (Layer* layer : m_layerTree) layer->Update();
 		
+			//testing input polling
+			auto [x, y] = Input::GetMousePosition();
+			SF_ENGINE_LOG_TRACE("{0}, {1}", x, y);
+
 			//update the window
 			m_window->Update();
+
+			//reset the keys at the end of the frame
+			Input::ResetInput();
 		}
 	}
 
