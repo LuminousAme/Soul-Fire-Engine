@@ -30,12 +30,34 @@ namespace SoulFire {
 
 		//for now just print that an event has occured
 		SF_ENGINE_LOG_TRACE("{0}", ev);
+
+		//send the events through the layers in reverse order until one of them handles the event
+		for (auto it = m_layerTree.end(); it != m_layerTree.begin();) {
+			//dispatch the event
+			(*--it)->OnEvent(ev);
+			//if it is handled after being dispatched stop handing it off
+			if (ev.GetHandled()) break;
+		}
+	}
+
+	void Application::PushLayer(Layer* layer)
+	{
+		m_layerTree.PushLayer(layer);
+	}
+
+	void Application::PushOverlay(Layer* overlay)
+	{
+		m_layerTree.PushOverlay(overlay);
 	}
 
 	void Application::Run()
 	{
 		//while the application is running
 		while (m_running) {
+			//update all of the layers
+			for (Layer* layer : m_layerTree) layer->Update();
+		
+			//update the window
 			m_window->Update();
 		}
 	}

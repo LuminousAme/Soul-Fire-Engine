@@ -4,6 +4,7 @@
 
 #include "EngineCore.h"
 #include "Window.h"
+#include "LayerTree.h"
 
 //include all of the different event files
 #include "Events/Event.h"
@@ -22,6 +23,9 @@ namespace SoulFire {
 
 		void OnEvent(Event& ev);
 
+		void PushLayer(Layer* layer);
+		void PushOverlay(Layer* overlay);
+
 	private:
 		bool OnWindowClose(WindowCloseEvent& ev);
 
@@ -30,6 +34,9 @@ namespace SoulFire {
 		std::unique_ptr<Window> m_window;
 		//wheter or not the application is running
 		bool m_running = true;
+
+		//the layerstack
+		LayerTree m_layerTree;
 	};
 
 	// To be defined by client

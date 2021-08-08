@@ -62,6 +62,9 @@ namespace SoulFire {
 			return GetEventCategoryFlags() & category;
 		}
 
+		//gets wheter or not the event has been handled
+		inline bool GetHandled() const { return m_handled; }
+
 	protected:
 		//boolean for if an event has been handled
 		bool m_handled = false;

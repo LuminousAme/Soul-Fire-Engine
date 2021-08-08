@@ -17,9 +17,11 @@ outputdir = "%{cfg.buildcgf}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDirTable = {}
 IncludeDirTable["GLFW"] = "SoulFireEngine/dependencies/glfw3/include"
+IncludeDirTable["GLAD"] = "SoulFireEngine/dependencies/Glad/include"
 
 -- include the glfw premake
 include "SoulFireEngine/dependencies/glfw3"
+include "SoulFireEngine/dependencies/Glad"
 
 project "SoulFireEngine"
 	location "SoulFireEngine"
@@ -42,11 +44,13 @@ project "SoulFireEngine"
 	{
 		"%{prj.name}/src",
 		"%{prj.name}/dependencies/spdlog/include",
-		"%{IncludeDirTable.GLFW}"
+		"%{IncludeDirTable.GLFW}",
+		"%{IncludeDirTable.GLAD}"
 	}
 
 	links {
 		"GLFW",
+		"Glad",
 		"opengl32.lib"
 	}
 
@@ -63,14 +67,17 @@ project "SoulFireEngine"
 
 	filter "configurations:Debug"
 		defines "SF_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "SF_RELEASE"
+		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Distribution"
 		defines "SF_DISTRIBUTION"
+		buildoptions "/MD"
 		optimize "On"
 
 
@@ -117,12 +124,15 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "SF_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "SF_RELEASE"
+		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Distribution"
 		defines "SF_DISTRIBUTION"
+		buildoptions "/MD"
 		optimize "On"

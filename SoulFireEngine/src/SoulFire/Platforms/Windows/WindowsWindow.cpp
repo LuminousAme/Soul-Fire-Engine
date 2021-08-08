@@ -3,6 +3,7 @@
 
 #include "SF_PCH.h"
 #include "WindowsWindow.h"
+#include <glad/glad.h>
 
 //event types
 #include "SoulFire/Events/Event.h"
@@ -95,6 +96,10 @@ namespace SoulFire {
 		glfwMakeContextCurrent(m_window);
 		glfwSetWindowUserPointer(m_window, &m_data);
 		SetVSync(true);
+
+		//initliaze glad
+		int gladLoadStatus = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		SF_ENGINE_LOG_ASSERT(gladLoadStatus, "Glad initalization failed!");
 
 		// Setup GLFW callbacks
 
