@@ -27,5 +27,10 @@ project "spdlog"
         "SPDLOG_COMPILED_LIB"
     }
     
-    filter { "system:windows", "configurations:Release" }
-        buildoptions "/MT"
+	filter "configurations:Debug"
+		runtime "Debug"
+		symbols "On"
+
+	filter "configurations:Release"
+		runtime "Release"
+		optimize "On"

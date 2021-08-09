@@ -5,10 +5,14 @@
 #include "SF_PCH.h"
 
 #ifdef SF_PLATFORM_WINDOWS
-	#ifdef SF_BUILDING_DLL
-		#define SF_API __declspec(dllexport)
+	#ifdef SF_DYNAMIC_LINK
+		#ifdef SF_BUILDING_DLL
+			#define SF_API __declspec(dllexport)
+		#else
+			#define SF_API __declspec(dllimport)
+		#endif
 	#else
-		#define SF_API __declspec(dllimport)
+		#define SF_API
 	#endif
 #else 
 	#error Soul Fire is currently on supported on windows only.
