@@ -2,6 +2,10 @@
 .vs/
 bin/
 intermdiate-bin/
+obj/
 
 #Files
 *.user
+*.sln
+*.vcxproj
+*.vcxproj.filters

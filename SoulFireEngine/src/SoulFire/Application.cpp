@@ -36,9 +36,6 @@ namespace SoulFire {
 		//check if it's a window close event and if it is, run the window close function
 		dispatcher.Dispatch<WindowCloseEvent>(std::bind(&Application::OnWindowClose, this, std::placeholders::_1));
 
-		//for now just print that an event has occured
-		SF_ENGINE_LOG_TRACE("{0}", ev);
-
 		//send the events through the layers in reverse order until one of them handles the event
 		for (auto it = m_layerTree.end(); it != m_layerTree.begin();) {
 			//dispatch the event
@@ -66,8 +63,8 @@ namespace SoulFire {
 			for (Layer* layer : m_layerTree) layer->Update();
 		
 			//testing input polling
-			auto [x, y] = Input::GetMousePosition();
-			SF_ENGINE_LOG_TRACE("{0}, {1}", x, y);
+			//auto [x, y] = Input::GetMousePosition();
+			//SF_ENGINE_LOG_TRACE("{0}, {1}", x, y);
 
 			//update the window
 			m_window->Update();
