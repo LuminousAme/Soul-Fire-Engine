@@ -31,6 +31,10 @@ namespace SoulFire {
 
 		inline virtual void* GetNativeWindowPointer() const { return m_window; }
 
+		//for interacting with the clipboard
+		const char* GetClipBoardText();
+		void SetClipBoardText(const char* text);
+
 	private:
 		//function for startup and shutdown
 		virtual void Startup(const WindowDetails& details);

@@ -48,11 +48,13 @@ namespace SoulFire {
 	void Application::PushLayer(Layer* layer)
 	{
 		m_layerTree.PushLayer(layer);
+		layer->Attach();
 	}
 
 	void Application::PushOverlay(Layer* overlay)
 	{
 		m_layerTree.PushOverlay(overlay);
+		overlay->Attach();
 	}
 
 	void Application::Run()

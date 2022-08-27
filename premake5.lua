@@ -21,10 +21,15 @@ IncludeDirTable = {}
 IncludeDirTable["GLFW"] = "SoulFireEngine/dependencies/glfw3/include"
 IncludeDirTable["GLAD"] = "SoulFireEngine/dependencies/Glad/include"
 IncludeDirTable["GLM"] = "SoulFireEngine/dependencies/glm/include"
+IncludeDirTable["ImGui"] = "SoulFireEngine/dependencies/Imgui"
 
 -- include the glfw premake
-include "SoulFireEngine/dependencies/glfw3"
-include "SoulFireEngine/dependencies/Glad"
+group "Dependencies"
+	include "SoulFireEngine/dependencies/glfw3"
+	include "SoulFireEngine/dependencies/Glad"
+	include "SoulFireEngine/dependencies/Imgui"
+
+group ""
 
 project "SoulFireEngine"
 	location "SoulFireEngine"
@@ -51,12 +56,14 @@ project "SoulFireEngine"
 		"%{prj.name}/dependencies/spdlog/include",
 		"%{IncludeDirTable.GLFW}",
 		"%{IncludeDirTable.GLAD}",
-		"%{IncludeDirTable.GLM}"
+		"%{IncludeDirTable.GLM}",
+		"%{IncludeDirTable.ImGui}"
 	}
 
 	links {
 		"GLFW",
 		"Glad",
+		"ImGui",
 		"opengl32.lib"
 	}
 

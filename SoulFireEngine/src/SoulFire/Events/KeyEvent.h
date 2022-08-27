@@ -67,4 +67,24 @@ namespace SoulFire {
 		//save the class type as keyrealeased
 		EVENT_CLASS_TYPE(KeyReleased);
 	};
+
+	//class for the key typed
+	class SF_API KeyTypedEvent : public KeyEvent
+	{
+	public:
+		//constructor, makes a keyevent with the keycode, and saves the number of repeats
+		KeyTypedEvent(int keyCode)
+			: KeyEvent(keyCode) {}
+
+		//ToString override that will spit out a string with the keycode and the number of times it has been repeated
+		std::string ToString() const override
+		{
+			std::stringstream ss;
+			ss << "KeyTypedEvent: " << m_KeyCode;
+			return ss.str();
+		}
+
+		//save the class type as keypressed
+		EVENT_CLASS_TYPE(KeyTyped);
+	};
 }

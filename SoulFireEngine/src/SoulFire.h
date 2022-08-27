@@ -9,3 +9,5 @@
 #include "SoulFire/Events/Event.h"
 
 #include "SoulFire/InputCodes.h"
+
+#include "SoulFire/ImGui/ImGuiLayer.h"

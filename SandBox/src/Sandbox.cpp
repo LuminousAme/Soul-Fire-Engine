@@ -2,7 +2,9 @@
 
 class Sandbox : public SoulFire::Application {
 public:
-	Sandbox() {}
+	Sandbox() {
+		PushOverlay(new SoulFire::ImGuiLayer());
+	}
 
 	~Sandbox() {}
 };

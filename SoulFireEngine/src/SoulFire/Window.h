@@ -46,5 +46,9 @@ namespace SoulFire {
 
 		//function to make a new window, 
 		static Window* CreateNewWindow(const WindowDetails& details = WindowDetails());
+
+		//clipboard interaction
+		virtual const char* GetClipBoardText() = 0;
+		virtual void SetClipBoardText(const char* text) = 0;
 	};
 }

@@ -66,6 +66,16 @@ namespace SoulFire {
 		return m_data.vysnc;
 	}
 
+	const char* WindowsWindow::GetClipBoardText()
+	{
+		return glfwGetClipboardString(m_window);
+	}
+
+	void WindowsWindow::SetClipBoardText(const char* text)
+	{
+		glfwSetClipboardString(m_window, text);
+	}
+
 	//inits the window
 	void WindowsWindow::Startup(const WindowDetails& details)
 	{
@@ -126,6 +136,14 @@ namespace SoulFire {
 			data.EventCallback(event);
 		});
 
+		//char event callback
+		glfwSetCharCallback(m_window, [](GLFWwindow* window, unsigned int key) {
+			//grab the user pointer, cast and dereference it
+			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			KeyTypedEvent event(key);
+			data.EventCallback(event);
+		});
+		
 		//key event
 		glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
 			//grab the user pointer, cast and dereference it
