@@ -152,15 +152,6 @@ namespace SoulFire {
 		return status != GL_FALSE;
 	}
 
-	void OpenGLShader::Bind()
-	{
-		glUseProgram(m_handle);
-	}
-
-	void OpenGLShader::UnBind()
-	{
-		glUseProgram(0);
-	}
 
 	GLenum OpenGLShader::ConvertShaderType(ShaderType type)
 	{

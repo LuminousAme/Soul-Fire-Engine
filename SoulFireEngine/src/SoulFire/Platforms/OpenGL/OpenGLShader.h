@@ -21,10 +21,10 @@ namespace SoulFire {
 		bool Link() override;
 
 		//Binds the shader program so we can acutally use it
-		void Bind() override;
+		void Bind() const override { glUseProgram(m_handle); }
 
 		//Unbinds the shader program so we can use another
-		void UnBind() override;
+		void UnBind() const override { glUseProgram(0); }
 
 	private:
 		//vertex shader

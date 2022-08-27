@@ -2,6 +2,8 @@
 //Shader.h - header file for the class that represnets a complete shader program that can interface with different API 
 #pragma once
 
+#include "Renderer.h"
+
 namespace SoulFire {
 	enum class ShaderType
 	{
@@ -12,8 +14,7 @@ namespace SoulFire {
 
 	class Shader {
 	public:
-		Shader() {};
-		~Shader() {};
+		virtual ~Shader() {};
 
 		//loads a single stage of the shader (vertex, fragment, etc.) and returns if sucessful
 		virtual bool LoadShaderStage(const char* sourceCode, ShaderType shaderType) = 0;
@@ -25,9 +26,12 @@ namespace SoulFire {
 		virtual bool Link() = 0;
 
 		//Binds the shader program so we can acutally use it
-		virtual void Bind() = 0;
+		virtual void Bind() const = 0;
 
 		//Unbinds the shader program so we can use another
-		virtual void UnBind() = 0;
+		virtual void UnBind() const = 0;
+
+		//creates a shader
+		static Shader* Create();
 	};
 }

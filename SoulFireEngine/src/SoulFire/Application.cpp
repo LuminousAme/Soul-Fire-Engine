@@ -12,6 +12,8 @@
 #include "Input.h"
 #include <glad/glad.h>
 
+#include "SoulFire/Platforms/OpenGL/OpenGLShader.h"
+
 namespace SoulFire {
 
 	Application* Application::s_Instance = nullptr; 
@@ -28,6 +30,57 @@ namespace SoulFire {
 
 		m_imguiLayer = new ImGuiLayer();
 		PushOverlay(m_imguiLayer);
+
+		glGenVertexArrays(1, &m_VAO);
+		glBindVertexArray(m_VAO);
+
+		float vertices[9] = {
+			-0.5f, -0.5f, 0.0f,
+			0.5f, -0.5f, 0.0f,
+			0.0f, 0.5f, 0.0f
+		};
+
+		m_VBO.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
+		m_VBO->Bind();
+
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+
+		uint32_t indices[3] = { 0, 1, 2 };
+		m_IBO.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+		m_IBO->Bind();
+
+		std::string vertShaderSrc = R"(
+			#version 420
+			
+			layout(location = 0) in vec3 inPosition;
+			layout(location = 0) out vec3 outPosition;
+
+			void main() {
+				outPosition = inPosition;
+				gl_Position = vec4(inPosition, 1.0);
+			}
+
+		)";
+
+		std::string fragShaderSrc = R"(
+			#version 420
+			
+			layout(location = 0) in vec3 inPosition;
+			layout(location = 0) out vec4 outColor;
+
+			void main() {
+				outColor = vec4(inPosition * 0.5 + 0.5, 1.0);
+				//outColor = vec4(0.8, 0.2, 0.3, 1.0);
+			}
+
+		)";
+
+		m_Shader.reset(Shader::Create());
+
+		m_Shader->LoadShaderStage(vertShaderSrc.c_str(), ShaderType::VERTEX);
+		m_Shader->LoadShaderStage(fragShaderSrc.c_str(), ShaderType::FRAGMENT);
+		m_Shader->Link();
 	}
 
 	Application::~Application()
@@ -68,6 +121,13 @@ namespace SoulFire {
 			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 			glClearDepth(1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+			m_Shader->Bind();
+
+			glBindVertexArray(m_VAO);
+			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+
+			m_Shader->UnBind();
 
 			//update all of the layers
 			for (Layer* layer : m_layerTree) layer->Update();
