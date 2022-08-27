@@ -8,6 +8,7 @@
 #include "SoulFire/Logger.h"
 #include "SoulFire/Events/Event.h"
 
+#include "SoulFire/Input.h"
 #include "SoulFire/InputCodes.h"
 
 #include "SoulFire/ImGui/ImGuiLayer.h"
