@@ -4,9 +4,9 @@
 
 #include "SoulFire/Layer.h"
 
-#include "SoulFire/Events/KeyEvent.h";
-#include "SoulFire/Events/MouseEvent.h";
 #include "SoulFire/Events/ApplicationEvent.h"
+#include "SoulFire/Events/KeyEvent.h"
+#include "SoulFire/Events/MouseEvent.h"
 
 namespace SoulFire {
 	class SF_API ImGuiLayer : public Layer {

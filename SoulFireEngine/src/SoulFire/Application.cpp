@@ -10,6 +10,7 @@
 #include "Logger.h"
 
 #include "Input.h"
+#include <glad/glad.h>
 
 namespace SoulFire {
 
@@ -64,6 +65,10 @@ namespace SoulFire {
 	{
 		//while the application is running
 		while (m_running) {
+			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+			glClearDepth(1.0f);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 			//update all of the layers
 			for (Layer* layer : m_layerTree) layer->Update();
 

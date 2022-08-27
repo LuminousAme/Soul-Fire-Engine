@@ -3,6 +3,7 @@
 #pragma once
 
 #include <iostream>
+#include <fstream>
 #include <memory>
 #include <utility>
 #include <algorithm>
@@ -12,7 +13,6 @@
 #include <sstream>
 #include <vector>
 #include <unordered_map>
-
 #include "SoulFire/Logger.h"
 
 //math

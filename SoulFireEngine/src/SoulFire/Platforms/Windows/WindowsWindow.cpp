@@ -47,8 +47,8 @@ namespace SoulFire {
 	{
 		//have glfw check for events
 		glfwPollEvents();
-		//and swap the front and backbuffers
-		glfwSwapBuffers(m_window);
+
+		m_context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool vysncOn)
@@ -103,14 +103,11 @@ namespace SoulFire {
 
 		//create the window, set it as the current context, send in the data as a user pointer, and turn vsync on
 		m_window = glfwCreateWindow((int)m_data.m_width, (int)m_data.m_height, m_data.m_title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(m_window);
-		glfwSetWindowUserPointer(m_window, &m_data);
+		m_context = new OpenGLContext(m_window);
+		m_context->Init();
+
 		SetVSync(true);
-
-		//initliaze glad
-		int gladLoadStatus = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		SF_ENGINE_LOG_ASSERT(gladLoadStatus, "Glad initalization failed!");
-
+		glfwSetWindowUserPointer(m_window, &m_data);
 		// Setup GLFW callbacks
 
 		//resize event
@@ -206,5 +203,6 @@ namespace SoulFire {
 	{
 		//destroy the window
 		glfwDestroyWindow(m_window);
+		delete m_context;
 	}
 }

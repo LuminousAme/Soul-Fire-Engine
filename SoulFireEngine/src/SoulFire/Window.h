@@ -5,6 +5,7 @@
 #include "SF_PCH.h"
 #include "SoulFire/EngineCore.h"
 #include "SoulFire/Events/Event.h"
+#include "SoulFire/Renderer/GraphicsContext.h"
 
 namespace SoulFire {
 	//struct containing general window data like the name and size

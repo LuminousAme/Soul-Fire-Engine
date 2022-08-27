@@ -24,3 +24,13 @@ project "ImGui"
         systemversion "latest"
 		cppdialect "C++17"
 		staticruntime "On"
+
+	filter "configurations:Debug"
+		defines "SF_DEBUG"
+		runtime "Debug"
+		symbols "On"
+
+	filter "configurations:Release"
+		defines "SF_RELEASE"
+		runtime "Release"
+		optimize "On"

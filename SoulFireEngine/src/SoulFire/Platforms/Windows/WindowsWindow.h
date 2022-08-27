@@ -3,7 +3,7 @@
 #pragma once
 
 #include "SoulFire/Window.h"
-#include "GLFW/glfw3.h"
+#include "SoulFire/Platforms/OpenGL/OpenGLContext.h"
 
 namespace SoulFire {
 	//definition of the window class for the micrcosoft windows platform
@@ -44,6 +44,8 @@ namespace SoulFire {
 	private:
 		//pointer to the glfw window
 		GLFWwindow* m_window;
+		//pointer to the rendering context
+		GraphicsContext* m_context;
 
 		//struct with window data that can be passed to glfw as custom user data without needing to send the entire window class
 		struct WindowData {
