@@ -21,6 +21,7 @@ namespace SoulFire {
 		//getters for window width and height
 		inline unsigned int GetWidth() const override { return m_data.m_width; }
 		inline unsigned int GetHeight() const override { return m_data.m_height; }
+		virtual std::pair<unsigned int, unsigned int> GetWindowSize() const override { return std::pair(m_data.m_width, m_data.m_height); }
 
 		//sets the event callback function
 		inline void SetEventCallback(const std::function<void(Event&)>& callback) override { m_data.EventCallback = callback; };

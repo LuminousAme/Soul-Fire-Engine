@@ -114,6 +114,7 @@ project "Sandbox"
 	{
 		"SoulFireEngine/dependencies/spdlog/include",
 		"SoulFireEngine/src",
+		"SoulFireEngine/dependencies",
 		"%{IncludeDirTable.GLM}"
 	}
 

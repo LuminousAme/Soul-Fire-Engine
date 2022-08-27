@@ -26,6 +26,6 @@ namespace SoulFire {
 	private:
 		//container for the layers
 		std::vector<Layer*> m_Layers;
-		std::vector<Layer*>::iterator m_InsertPoint;
+		unsigned int m_InsertIndex = 0;
 	};
 }

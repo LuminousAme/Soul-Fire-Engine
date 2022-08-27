@@ -20,6 +20,7 @@ namespace SoulFire {
 		virtual void Detach() {};
 		virtual void Update() {};
 		virtual void OnEvent(Event& ev) {};
+		virtual void ImGuiRender() {};
 
 		//getter for the layer's name
 		inline const std::string& GetName() const { return m_Name; }

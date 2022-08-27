@@ -12,6 +12,9 @@
 #include "Events/MouseEvent.h"
 #include "Events/KeyEvent.h"
 
+//include the imgui layer
+#include "ImGui/ImGuiLayer.h"
+
 namespace SoulFire {
 	class SF_API Application
 	{
@@ -35,6 +38,7 @@ namespace SoulFire {
 	private:
 		//the window
 		std::unique_ptr<Window> m_window;
+		ImGuiLayer* m_imguiLayer;
 		//wheter or not the application is running
 		bool m_running = true;
 

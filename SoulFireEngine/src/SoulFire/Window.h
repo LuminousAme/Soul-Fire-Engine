@@ -34,6 +34,7 @@ namespace SoulFire {
 		//size getters
 		virtual unsigned int GetWidth() const = 0;
 		virtual unsigned int GetHeight() const = 0;
+		virtual std::pair<unsigned int, unsigned int> GetWindowSize() const = 0;
 
 		//setup event callbacks
 		virtual void SetEventCallback(const std::function<void(Event&)>& callback) = 0;

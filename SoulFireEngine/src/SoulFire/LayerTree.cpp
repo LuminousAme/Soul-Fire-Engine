@@ -8,8 +8,7 @@ namespace SoulFire {
 	//constructor
 	LayerTree::LayerTree()
 	{
-		//set the insert point to the start of the vector
-		m_InsertPoint = m_Layers.begin();
+		m_InsertIndex = 0;
 	}
 
 	//desturctor
@@ -22,7 +21,8 @@ namespace SoulFire {
 	//adds a layer to the collection
 	void LayerTree::PushLayer(Layer* layer)
 	{
-		m_InsertPoint = m_Layers.emplace(m_InsertPoint, layer);
+		m_Layers.emplace(m_Layers.begin() + m_InsertIndex, layer);
+		m_InsertIndex++;
 	}
 
 	//remove a layer from the collection (without deleting it)
@@ -31,7 +31,7 @@ namespace SoulFire {
 		auto it = std::find(m_Layers.begin(), m_Layers.end(), layer);
 		if (it != m_Layers.end()) {
 			m_Layers.erase(it);
-			m_InsertPoint--;
+			m_InsertIndex--;
 		}
 	}
 
