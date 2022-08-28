@@ -4,5 +4,17 @@
 #include "Renderer.h"
 
 namespace SoulFire {
-	RendererAPI Renderer::s_RendererAPI = RendererAPI::OPENGL;
+
+	void Renderer::BeginRenderPass()
+	{
+	}
+
+	void Renderer::EndRenderPass()
+	{
+	}
+
+	void Renderer::AddToPass(const VertexArrayObject::sptr& VAO)
+	{
+
+	}
 }

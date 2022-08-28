@@ -5,6 +5,7 @@
 
 namespace SoulFire {
 	OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, uint32_t size)
+		: m_count(sizeof(vertices) / sizeof(float))
 	{
 		glCreateBuffers(1, &m_handle);
 		Bind();
@@ -28,7 +29,7 @@ namespace SoulFire {
 	}
 
 	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t count)
-		: m_count(count)
+		: m_count(count), m_elementType(IndexElementType::UNSIGNEDINT)
 	{
 		glCreateBuffers(1, &m_handle);
 		Bind();

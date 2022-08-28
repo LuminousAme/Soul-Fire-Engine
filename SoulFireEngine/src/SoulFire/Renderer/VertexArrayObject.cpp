@@ -1,12 +1,15 @@
 //Soul Fire Engine By Ame Gilham, inspired by The Cherno's Hazel
-//Shader.cpp - source file for the class that represnets a complete shader program that can interface with different API 
-#include "SF_PCH.h"
-#include "Shader.h"
+//VertexArrayObject.cpp - source file for the class that represnets a vertex array object that can interface with different API 
 
-#include "SoulFire/Platforms/OpenGL/OpenGLShader.h"
+#include "SF_PCH.h"
+#include "VertexArrayObject.h"
+#include "Renderer.h"
+
+#include "SoulFire/Platforms/OpenGL/OpenGLVertexArrayObject.h"
 
 namespace SoulFire {
-	Shader* Shader::Create()
+
+	VertexArrayObject* VertexArrayObject::Create()
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -14,11 +17,11 @@ namespace SoulFire {
 			SF_ENGINE_LOG_ERROR("No graphics API selected");
 			return nullptr;
 		case RendererAPI::API::OPENGL:
-			return new OpenGLShader();
+			return new OpenGLVertexArrayObject();
+			break;
 		}
 
 		SF_ENGINE_LOG_ERROR("Unknown Graphics API");
-
 		return nullptr;
 	}
 }

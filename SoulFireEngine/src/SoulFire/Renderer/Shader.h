@@ -14,6 +14,8 @@ namespace SoulFire {
 
 	class Shader {
 	public:
+		typedef std::shared_ptr<Shader> sptr;
+	public:
 		virtual ~Shader() {};
 
 		//loads a single stage of the shader (vertex, fragment, etc.) and returns if sucessful

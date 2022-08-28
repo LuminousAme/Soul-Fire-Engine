@@ -13,8 +13,15 @@ namespace SoulFire {
 
 		void Bind() const override;
 		void UnBind() const override;
+
+		virtual const BufferLayout& GetLayout() const override { return m_layout; };
+		virtual void SetLayout(const BufferLayout& layout) override { m_layout = layout; };
+
+		uint32_t GetCount() const override { return m_count; };
 	private:
 		GLuint m_handle;
+		BufferLayout m_layout;
+		uint32_t m_count;
 	};
 
 	class OpenGLIndexBuffer : public IndexBuffer {
@@ -26,8 +33,10 @@ namespace SoulFire {
 		void UnBind() const override;
 
 		uint32_t GetCount() const override { return m_count; };
+		IndexElementType GetElementType() const override { return m_elementType; };
 	private:
 		GLuint m_handle;
 		uint32_t m_count;
+		IndexElementType m_elementType;
 	};
 }

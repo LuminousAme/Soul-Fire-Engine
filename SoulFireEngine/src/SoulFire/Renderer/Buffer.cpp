@@ -12,10 +12,10 @@ namespace SoulFire {
 	{
 		switch (Renderer::GetAPI())
 		{
-		case RendererAPI::NONE:
+		case RendererAPI::API::NONE:
 			SF_ENGINE_LOG_ERROR("No graphics API selected");
 			return nullptr;
-		case RendererAPI::OPENGL:
+		case RendererAPI::API::OPENGL:
 			return new OpenGLVertexBuffer(vertices, size);
 		}
 
@@ -27,10 +27,10 @@ namespace SoulFire {
 	{
 		switch (Renderer::GetAPI())
 		{
-		case RendererAPI::NONE:
+		case RendererAPI::API::NONE:
 			SF_ENGINE_LOG_ERROR("No graphics API selected");
 			return nullptr;
-		case RendererAPI::OPENGL:
+		case RendererAPI::API::OPENGL:
 			return new OpenGLIndexBuffer(indices, size);
 		}
 

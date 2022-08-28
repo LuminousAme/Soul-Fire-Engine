@@ -18,6 +18,7 @@
 //include graphics stuff
 #include "SoulFire/Renderer/Shader.h"
 #include "SoulFire/Renderer/Buffer.h"
+#include "SoulFire/Renderer/VertexArrayObject.h"
 
 namespace SoulFire {
 	class SF_API Application
@@ -52,11 +53,6 @@ namespace SoulFire {
 	private:
 		//singleton
 		static Application* s_Instance;
-
-		unsigned int m_VAO;
-		std::unique_ptr<Shader> m_Shader;
-		std::unique_ptr<VertexBuffer> m_VBO;
-		std::unique_ptr<IndexBuffer> m_IBO;
 	};
 
 	// To be defined by client
