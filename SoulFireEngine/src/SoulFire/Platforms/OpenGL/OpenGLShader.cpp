@@ -5,8 +5,14 @@
 #include "OpenGLShader.h"
 
 namespace SoulFire {
-	OpenGLShader::OpenGLShader()
-		: m_vs(0), m_fs(0), m_handle(0)
+	static ShaderType ShaderTypeFromString(const std::string& type) {
+		if (type == "vertex") return ShaderType::VERTEX;
+		else if (type == "fragment") return ShaderType::FRAGMENT;
+		else return ShaderType::None;
+	}
+
+	OpenGLShader::OpenGLShader(const std::string& name)
+		: m_vs(0), m_fs(0), m_handle(0), m_name(name)
 	{
 		m_handle = glCreateProgram();
 	}
@@ -98,6 +104,35 @@ namespace SoulFire {
 		bool result = LoadShaderStage(stream.str().c_str(), shaderType);
 		//close the file
 		file.close();
+
+		return result;
+	}
+
+	bool OpenGLShader::LoadFullShaderFromFile(const char* filePath)
+	{
+		//open the file 
+		std::ifstream file(filePath);
+
+		if (!file.is_open()) {
+			//if it did fail to open log an error
+			SF_ENGINE_LOG_ERROR("Shader file not found: {0}", filePath);
+			//and throw a runtime error
+			throw std::runtime_error("File not found, see logs");
+		}
+
+		//if it did open correctly then make a stream to parse it
+		std::stringstream stream;
+		//begin parsing it
+		stream << file.rdbuf();
+		std::string raw = stream.str();
+
+		auto allShaderSources = PreProcess(raw);
+
+		bool result = false;
+		for (auto& entry : allShaderSources) {
+			result = LoadShaderStage(entry.second.c_str(), entry.first);
+			if (!result) break;
+		}
 
 		return result;
 	}
@@ -263,6 +298,29 @@ namespace SoulFire {
 			glProgramUniformMatrix4fv(m_handle, location, count, transposed, glm::value_ptr(value));
 		}
 		else SF_LOG_WARNING("Could not find uniform {0}!", name);
+	}
+
+	std::unordered_map<ShaderType, std::string> OpenGLShader::PreProcess(const std::string& source)
+	{
+		std::unordered_map<ShaderType, std::string> shaderSourceCodes;
+
+		const char* typeToken = "#type";
+		size_t ttlen = strlen(typeToken);
+		size_t position = source.find(typeToken, 0);
+		while (position != std::string::npos) {
+			size_t eol = source.find_first_of("\r\n", position);
+			SF_ENGINE_LOG_ASSERT(eol != std::string::npos, "Syntax error in shader code");
+			size_t begin = position + ttlen + 1;
+			std::string type = source.substr(begin, eol - begin);
+			SF_ENGINE_LOG_ASSERT(ShaderTypeFromString(type) != ShaderType::None, "Invalid shader type specified");
+
+			size_t nextLinePos = source.find_first_not_of("\r\n", eol);
+			position = source.find(typeToken, nextLinePos);
+			shaderSourceCodes[ShaderTypeFromString(type)] = source.substr(nextLinePos,
+				position - (nextLinePos == std::string::npos ? source.size() - 1 : nextLinePos));
+		}
+
+		return shaderSourceCodes;
 	}
 
 	int OpenGLShader::GetUniformLocation(const std::string& name)

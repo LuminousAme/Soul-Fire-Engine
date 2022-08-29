@@ -8,7 +8,7 @@
 namespace SoulFire {
 	class OpenGLShader : public Shader {
 	public:
-		OpenGLShader();
+		OpenGLShader(const std::string& name);
 		~OpenGLShader();
 
 		//loads a single stage of the shader (vertex, fragment, etc.) and returns if sucessful
@@ -16,6 +16,9 @@ namespace SoulFire {
 
 		//loads a single stage of the shader from an external files and returns if sucessful
 		bool LoadShaderStageFromFile(const char* filePath, ShaderType shaderType) override;
+
+		//loads a full shader from an external file and returns if sucessful
+		bool LoadFullShaderFromFile(const char* filePath) override;
 
 		//Links the stages together creating the full shader pipeline and making it useable, returns if sucessful
 		bool Link() override;
@@ -25,6 +28,8 @@ namespace SoulFire {
 
 		//Unbinds the shader program so we can use another
 		void UnBind() const override { glUseProgram(0); }
+
+		virtual const std::string& GetName() const override { return m_name; };
 
 		void SetUniform(const std::string& name, const float& value, int count = 1) override;
 		void SetUniform(const std::string& name, const glm::vec2& value, int count = 1) override;
@@ -40,6 +45,9 @@ namespace SoulFire {
 		void SetUniformMatrix(const std::string& name, const glm::mat4& value, int count = 1, bool transposed = false) override;
 
 	private:
+		std::unordered_map<ShaderType, std::string> PreProcess(const std::string& source);
+
+	private:
 		//vertex shader
 		GLuint m_vs;
 		//fragment shader
@@ -53,5 +61,7 @@ namespace SoulFire {
 		std::unordered_map<std::string, int> m_uniformLocations;
 		//function to get the locations of all the uniforms
 		int GetUniformLocation(const std::string& name);
+
+		std::string m_name;
 	};
 }

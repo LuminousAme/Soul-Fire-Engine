@@ -129,13 +129,13 @@ public:
 
 		)";
 
-		m_Shader.reset(SoulFire::Shader::Create());
+		m_Shader.reset(SoulFire::Shader::Create("TriangleShader"));
 
 		m_Shader->LoadShaderStage(vertShaderSrc.c_str(), SoulFire::ShaderType::VERTEX);
 		m_Shader->LoadShaderStage(fragShaderSrc.c_str(), SoulFire::ShaderType::FRAGMENT);
 		m_Shader->Link();
 
-		m_SquareShader.reset(SoulFire::Shader::Create());
+		m_SquareShader.reset(SoulFire::Shader::Create("SquareShader"));
 
 		m_SquareShader->LoadShaderStage(squareVertShaderSrc.c_str(), SoulFire::ShaderType::VERTEX);
 		m_SquareShader->LoadShaderStage(sqaureFragShaderSrc.c_str(), SoulFire::ShaderType::FRAGMENT);
@@ -178,11 +178,7 @@ public:
 
 		)";
 
-		m_texturedShader.reset(SoulFire::Shader::Create());
-
-		m_texturedShader->LoadShaderStage(textureVertShaderSrc.c_str(), SoulFire::ShaderType::VERTEX);
-		m_texturedShader->LoadShaderStage(textureFragShaderSrc.c_str(), SoulFire::ShaderType::FRAGMENT);
-		m_texturedShader->Link();
+		m_shaderLibrary.Load("assets/shaders/texture.glsl");
 
 		m_texture = SoulFire::Texture2D::Create("assets/textures/necoarcpink.png");
 		m_textureTransparent = SoulFire::Texture2D::Create("assets/textures/necoarctransparent.png");
@@ -251,7 +247,7 @@ public:
 		//m_texturedShader->SetUniform("u_Texture", 0);
 
 		SoulFire::Renderer::AddToPass(m_VAO, m_Shader, m_TriangleTrans);
-		SoulFire::Renderer::AddToPass(m_SquareVAO, m_texturedShader, m_SquareTrans);
+		SoulFire::Renderer::AddToPass(m_SquareVAO, m_shaderLibrary.Get("texture"), m_SquareTrans);
 
 		m_texture->UnBind(0);
 		SoulFire::Renderer::EndRenderPass();
@@ -273,14 +269,14 @@ public:
 private:
 	glm::vec2 lastPos = glm::vec2(0.0f, 0.0f);
 
+	SoulFire::ShaderLibrary m_shaderLibrary;
+
 	SoulFire::sptr<SoulFire::Shader> m_Shader;
 	SoulFire::sptr<SoulFire::VertexArrayObject> m_VAO;
 
 	SoulFire::sptr<SoulFire::Shader> m_SquareShader;
 	SoulFire::sptr<SoulFire::VertexArrayObject> m_SquareVAO;
 	SoulFire::sptr<SoulFire::Camera> m_Camera;
-
-	SoulFire::sptr<SoulFire::Shader> m_texturedShader;
 
 	float camMoveSpeed = 2.5f;
 	float camRotSpeed = 90.0f;
