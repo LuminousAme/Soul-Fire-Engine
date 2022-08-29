@@ -4,8 +4,7 @@
 
 namespace SoulFire {
 	//Enums for interacting with the RendererAPI
-	class RendererEnums {
-	public:
+	namespace RendererEnums {
 		enum ClearFlags {
 			ClearColorBuffer = 1 << 0,
 			ClearDepthBuffer = 1 << 1,

@@ -2,6 +2,8 @@
 #include <SoulFire.h>
 #include <Imgui/imgui.h>
 
+//using namespace SoulFire::RendererEnums;
+
 class TestLayer : public SoulFire::Layer {
 public:
 	TestLayer()
@@ -210,9 +212,7 @@ public:
 			lastPos = currentPos;
 		}
 
-		SoulFire::RendererEnums::ClearFlags clearFlags;
-		clearFlags = (SoulFire::RendererEnums::ClearFlags)
-			(SoulFire::RendererEnums::ClearFlags::ClearColorBuffer | SoulFire::RendererEnums::ClearFlags::ClearDepthBuffer);
+		int clearFlags = (SoulFire::ClearFlags::ClearColorBuffer | SoulFire::ClearFlags::ClearDepthBuffer);
 		SoulFire::RenderCommand::Clear(clearFlags, glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
 
 		SoulFire::Renderer::BeginRenderPass(m_Camera);

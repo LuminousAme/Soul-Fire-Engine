@@ -24,3 +24,7 @@
 #include "SoulFire/Renderer/Camera.h"
 
 #include "SoulFire/Core/Time.h"
+
+namespace SoulFire {
+	using namespace RendererEnums;
+}
