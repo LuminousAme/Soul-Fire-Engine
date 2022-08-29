@@ -12,9 +12,11 @@ namespace SoulFire {
 			NONE = 0, OPENGL
 		};
 	public:
+		virtual void Init() = 0;
+
 		virtual void Clear(const glm::vec4& color = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f)) = 0;
 		
-		virtual void Draw(const VertexArrayObject::sptr& VAO) = 0;
+		virtual void Draw(const sptr<VertexArrayObject>& VAO) = 0;
 
 		inline static API GetAPI() { return s_API; }
 	private:

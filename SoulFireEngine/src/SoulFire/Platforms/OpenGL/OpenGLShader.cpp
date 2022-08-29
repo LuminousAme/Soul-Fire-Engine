@@ -165,4 +165,121 @@ namespace SoulFire {
 			return GL_NONE;
 		}
 	}
+
+	void OpenGLShader::SetUniform(const std::string& name, const float& value, int count)
+	{
+		int location = GetUniformLocation(name);
+		if (location != -1) {
+			glProgramUniform1fv(m_handle, location, count, &value);
+		}
+		else SF_LOG_WARNING("Could not find uniform {0}!", name);
+	}
+
+	void OpenGLShader::SetUniform(const std::string& name, const glm::vec2& value, int count)
+	{
+		int location = GetUniformLocation(name);
+		if (location != -1) {
+			glProgramUniform2fv(m_handle, location, count, glm::value_ptr(value));
+		}
+		else SF_LOG_WARNING("Could not find uniform {0}!", name);
+	}
+
+	void OpenGLShader::SetUniform(const std::string& name, const glm::vec3& value, int count)
+	{
+		int location = GetUniformLocation(name);
+		if (location != -1) {
+			glProgramUniform3fv(m_handle, location, count, glm::value_ptr(value));
+		}
+		else SF_LOG_WARNING("Could not find uniform {0}!", name);
+	}
+
+	void OpenGLShader::SetUniform(const std::string& name, const glm::vec4& value, int count)
+	{
+		int location = GetUniformLocation(name);
+		if (location != -1) {
+			glProgramUniform4fv(m_handle, location, count, glm::value_ptr(value));
+		}
+		else SF_LOG_WARNING("Could not find uniform {0}!", name);
+	}
+
+	void OpenGLShader::SetUniform(const std::string& name, const int& value, int count)
+	{
+		int location = GetUniformLocation(name);
+		if (location != -1) {
+			glProgramUniform1iv(m_handle, location, count, &value);
+		}
+		else SF_LOG_WARNING("Could not find uniform {0}!", name);
+	}
+
+	void OpenGLShader::SetUniform(const std::string& name, const glm::ivec2& value, int count)
+	{
+		int location = GetUniformLocation(name);
+		if (location != -1) {
+			glProgramUniform2iv(m_handle, location, count, glm::value_ptr(value));
+		}
+		else SF_LOG_WARNING("Could not find uniform {0}!", name);
+	}
+
+	void OpenGLShader::SetUniform(const std::string& name, const glm::ivec3& value, int count)
+	{
+		int location = GetUniformLocation(name);
+		if (location != -1) {
+			glProgramUniform3iv(m_handle, location, count, glm::value_ptr(value));
+		}
+		else SF_LOG_WARNING("Could not find uniform {0}!", name);
+	}
+
+	void OpenGLShader::SetUniform(const std::string& name, const glm::ivec4& value, int count)
+	{
+		int location = GetUniformLocation(name);
+		if (location != -1) {
+			glProgramUniform4iv(m_handle, location, count, glm::value_ptr(value));
+		}
+		else SF_LOG_WARNING("Could not find uniform {0}!", name);
+	}
+
+	void OpenGLShader::SetUniform(const std::string& name, const bool& value, int count)
+	{
+		int location = GetUniformLocation(name);
+		if (location != -1) {
+			glProgramUniform1i(location, value, 1);
+		}
+		else SF_LOG_WARNING("Could not find uniform {0}!", name);
+	}
+
+	void OpenGLShader::SetUniformMatrix(const std::string& name, const glm::mat3& value, int count, bool transposed)
+	{
+		int location = GetUniformLocation(name);
+		if (location != -1) {
+			glProgramUniformMatrix3fv(m_handle, location, count, transposed, glm::value_ptr(value));
+		}
+		else SF_LOG_WARNING("Could not find uniform {0}!", name);
+	}
+
+	void OpenGLShader::SetUniformMatrix(const std::string& name, const glm::mat4& value, int count, bool transposed)
+	{
+		int location = GetUniformLocation(name);
+		if (location != -1) {
+			glProgramUniformMatrix4fv(m_handle, location, count, transposed, glm::value_ptr(value));
+		}
+		else SF_LOG_WARNING("Could not find uniform {0}!", name);
+	}
+
+	int OpenGLShader::GetUniformLocation(const std::string& name)
+	{
+		std::unordered_map<std::string, int>::const_iterator it = m_uniformLocations.find(name);
+		int result = -1;
+
+		//if we haven't store the location yet grab it from opengl
+		if (it == m_uniformLocations.end()) {
+			result = glGetUniformLocation(m_handle, name.c_str());
+			m_uniformLocations[name] = result;
+		}
+		//other we have already saved it, so just return it
+		else {
+			result = it->second;
+		}
+
+		return result;
+	}
 }

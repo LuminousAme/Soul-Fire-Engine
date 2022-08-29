@@ -28,7 +28,9 @@ namespace SoulFire {
 		//create a new window
 		m_window = std::unique_ptr<Window>(Window::CreateNewWindow());
 		//sets the callback so that when the window sends an event, the OnEvent function is called
-		m_window->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
+		m_window->SetEventCallback(SF_BIND_EVENT_FN(Application::OnEvent));
+
+		Renderer::Init();
 
 		m_imguiLayer = new ImGuiLayer();
 		PushOverlay(m_imguiLayer);
@@ -69,6 +71,8 @@ namespace SoulFire {
 	{
 		//while the application is running
 		while (m_running) {
+			Time::BeginFrame();
+
 			//update all of the layers
 			for (Layer* layer : m_layerTree) layer->Update();
 
@@ -86,6 +90,8 @@ namespace SoulFire {
 
 			//reset the keys at the end of the frame
 			Input::ResetInput();
+
+			Time::StopFrame();
 		}
 	}
 

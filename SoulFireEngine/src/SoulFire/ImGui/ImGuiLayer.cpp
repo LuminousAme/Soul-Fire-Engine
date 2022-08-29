@@ -59,8 +59,6 @@ namespace SoulFire {
 
 	void ImGuiLayer::ImGuiRender()
 	{
-		static bool show = true;
-		if(show) ImGui::ShowDemoWindow();
 	}
 
 	void ImGuiLayer::Begin()

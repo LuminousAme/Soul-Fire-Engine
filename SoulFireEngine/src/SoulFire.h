@@ -12,3 +12,15 @@
 #include "SoulFire/InputCodes.h"
 
 #include "SoulFire/ImGui/ImGuiLayer.h"
+
+#include "SoulFire/Renderer/Renderer.h"
+#include "SoulFire/Renderer/RenderCommand.h"
+
+#include "SoulFire/Renderer/Buffer.h"
+#include "SoulFire/Renderer/Shader.h"
+#include "SoulFire/Renderer/Texture.h"
+#include "SoulFire/Renderer/VertexArrayObject.h"
+
+#include "SoulFire/Renderer/Camera.h"
+
+#include "SoulFire/Core/Time.h"

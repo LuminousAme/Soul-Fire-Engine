@@ -20,6 +20,9 @@
 #include "SoulFire/Renderer/Buffer.h"
 #include "SoulFire/Renderer/VertexArrayObject.h"
 
+//time 
+#include "SoulFire/Core/Time.h"
+
 namespace SoulFire {
 	class SF_API Application
 	{

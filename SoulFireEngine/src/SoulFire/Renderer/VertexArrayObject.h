@@ -8,18 +8,16 @@
 namespace SoulFire {
 	class VertexArrayObject {
 	public:
-		typedef std::shared_ptr<VertexArrayObject> sptr;
-	public:
 		virtual ~VertexArrayObject() {}
 
 		virtual void Bind() const = 0;
 		virtual void UnBind() const = 0;
 
-		virtual void AddVertexBuffer(const VertexBuffer::sptr& vbo) = 0;
-		virtual void SetIndexBuffer(const IndexBuffer::sptr& ibo) = 0;
+		virtual void AddVertexBuffer(const sptr<VertexBuffer>& vbo) = 0;
+		virtual void SetIndexBuffer(const sptr<IndexBuffer>& ibo) = 0;
 
-		virtual const std::vector<VertexBuffer::sptr>& GetVertexBuffers() const = 0;
-		virtual const IndexBuffer::sptr& GetIndexBuffer() const = 0;
+		virtual const std::vector<sptr<VertexBuffer>>& GetVertexBuffers() const = 0;
+		virtual const sptr<IndexBuffer>& GetIndexBuffer() const = 0;
 
 		virtual uint32_t GetVertexCount() const = 0;
 

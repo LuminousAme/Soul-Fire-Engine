@@ -9,6 +9,12 @@ public:
 	{
 		lastPos = glm::vec2(SoulFire::Input::GetMouseX(), SoulFire::Input::GetMouseY());
 
+		m_Camera.reset(SoulFire::Camera::Create(2.0 * -1.6f, 2.0 * 1.6f, 2.0 * -1.0f, 2.0 * 1.0f, -1.0f, 1.0f));
+		m_Camera->SetPosition(glm::vec3(0.5f, 0.5f, 0.0f));
+
+		m_TriangleTrans = SoulFire::Transform();
+		m_SquareTrans = SoulFire::Transform();
+
 		m_VAO.reset(SoulFire::VertexArrayObject::Create());
 
 		float vertices[3 * 7] = {
@@ -17,7 +23,7 @@ public:
 			0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f
 		};
 
-		SoulFire::VertexBuffer::sptr VBO;
+		SoulFire::sptr<SoulFire::VertexBuffer> VBO;
 		VBO.reset(SoulFire::VertexBuffer::Create(vertices, sizeof(vertices)));
 
 		//create the layout
@@ -29,25 +35,28 @@ public:
 		m_VAO->AddVertexBuffer(VBO);
 
 		uint32_t indices[3] = { 0, 1, 2 };
-		SoulFire::IndexBuffer::sptr IBO;
+		SoulFire::sptr<SoulFire::IndexBuffer> IBO;
 		IBO.reset(SoulFire::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
 		m_VAO->SetIndexBuffer(IBO);
 
 		m_SquareVAO.reset(SoulFire::VertexArrayObject::Create());
 
-		float squareVertices[4 * 3] = {
-			-0.75f, -0.75f, 0.0f,
-			0.75f, -0.75f, 0.0f,
-			0.75f, 0.75f, 0.0f,
-			-0.75f, 0.75f, 0.0f
+		float squareVertices[4 * 5] = {
+			-0.75f,	 -0.75f,  0.0f,  0.0f,  0.0f,
+			0.75f,   -0.75f,  0.0f,  1.0f,  0.0f,
+			0.75f,    0.75f,  0.0f,  1.0f,  1.0f,
+			-0.75f,   0.75f,  0.0f,  0.0f,  1.0f
 		};
-		SoulFire::VertexBuffer::sptr sqaureVBO;
+		SoulFire::sptr<SoulFire::VertexBuffer> sqaureVBO;
 		sqaureVBO.reset(SoulFire::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
-		sqaureVBO->SetLayout({ { SoulFire::ShaderDataType::Vec3, "inPosition" } });
+		sqaureVBO->SetLayout({ 
+			{ SoulFire::ShaderDataType::Vec3, "inPosition" },
+			{ SoulFire::ShaderDataType::Vec2, "inUv" }
+			});
 		m_SquareVAO->AddVertexBuffer(sqaureVBO);
 
 		uint32_t sqaureIndices[6] = { 0, 1, 2, 2, 3, 0 };
-		SoulFire::IndexBuffer::sptr sqaureIBO;
+		SoulFire::sptr<SoulFire::IndexBuffer> sqaureIBO;
 		sqaureIBO.reset(SoulFire::IndexBuffer::Create(sqaureIndices, sizeof(sqaureIndices) / sizeof(uint32_t)));
 		m_SquareVAO->SetIndexBuffer(sqaureIBO);
 
@@ -59,10 +68,13 @@ public:
 			layout(location = 0) out vec3 outPosition;
 			layout(location = 1) out vec4 outColor;
 
+			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Model;
+
 			void main() {
 				outPosition = inPosition;
 				outColor = inColor;
-				gl_Position = vec4(inPosition, 1.0);
+				gl_Position = u_ViewProjection * u_Model * vec4(inPosition, 1.0);
 			}
 
 		)";
@@ -74,8 +86,11 @@ public:
 			layout(location = 1) in vec4 inColor;
 			layout(location = 0) out vec4 outColor;
 
+			uniform vec4 u_Color;
+
 			void main() {
-				outColor =  inColor;
+				outColor = u_Color;
+				//outColor =  inColor;
 				//outColor = vec4(inPosition * 0.5 + 0.5, 1.0);
 				//outColor = vec4(0.8, 0.2, 0.3, 1.0);
 			}
@@ -88,9 +103,12 @@ public:
 			layout(location = 0) in vec3 inPosition;
 			layout(location = 0) out vec3 outPosition;
 
+			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Model;
+
 			void main() {
 				outPosition = inPosition;
-				gl_Position = vec4(inPosition, 1.0);
+				gl_Position = u_ViewProjection * u_Model * vec4(inPosition, 1.0);
 			}
 
 		)";
@@ -101,8 +119,11 @@ public:
 			layout(location = 0) in vec3 inPosition;
 			layout(location = 0) out vec4 outColor;
 
+			uniform vec4 u_Color;
+
 			void main() {
-				outColor = vec4(inPosition * 0.5 + 0.5, 1.0);
+				outColor = u_Color;
+				//outColor = vec4(inPosition * 0.5 + 0.5, 1.0);
 				//outColor = vec4(0.8, 0.2, 0.3, 1.0);
 			}
 
@@ -119,9 +140,91 @@ public:
 		m_SquareShader->LoadShaderStage(squareVertShaderSrc.c_str(), SoulFire::ShaderType::VERTEX);
 		m_SquareShader->LoadShaderStage(sqaureFragShaderSrc.c_str(), SoulFire::ShaderType::FRAGMENT);
 		m_SquareShader->Link();
+
+		std::string textureVertShaderSrc = R"(
+			#version 420
+			
+			layout(location = 0) in vec3 inPosition;
+			layout(location = 1) in vec2 inUv;
+			layout(location = 0) out vec3 outPosition;
+			layout(location = 1) out vec2 outUv;
+
+			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Model;
+
+			void main() {
+				outUv = inUv;
+				outPosition = inPosition;
+				gl_Position = u_ViewProjection * u_Model * vec4(inPosition, 1.0);
+			}
+
+		)";
+
+		std::string textureFragShaderSrc = R"(
+			#version 420
+			
+			layout(location = 0) in vec3 inPosition;
+			layout(location = 1) in vec2 inUv;
+			layout(location = 0) out vec4 outColor;
+			
+			layout(binding = 0) uniform sampler2D s_Texture;
+
+			void main() {
+				outColor = texture(s_Texture, inUv);
+				//outColor = vec4(inUv, 0.0, 1.0);
+				//outColor = vec4(inPosition * 0.5 + 0.5, 1.0);
+				//outColor = vec4(0.8, 0.2, 0.3, 1.0);
+			}
+
+		)";
+
+		m_texturedShader.reset(SoulFire::Shader::Create());
+
+		m_texturedShader->LoadShaderStage(textureVertShaderSrc.c_str(), SoulFire::ShaderType::VERTEX);
+		m_texturedShader->LoadShaderStage(textureFragShaderSrc.c_str(), SoulFire::ShaderType::FRAGMENT);
+		m_texturedShader->Link();
+
+		m_texture = SoulFire::Texture2D::Create("assets/textures/necoarcpink.png");
+		m_textureTransparent = SoulFire::Texture2D::Create("assets/textures/necoarctransparent.png");
 	}
 
 	void Update() override {
+		//CAMERA
+		glm::vec3 move = glm::vec3(0.0f);
+		if (SoulFire::Input::GetKey(SF_KEY_L)) move.x += camMoveSpeed;
+		else if (SoulFire::Input::GetKey(SF_KEY_J)) move.x -= camMoveSpeed;
+		if (SoulFire::Input::GetKey(SF_KEY_I)) move.y += camMoveSpeed;
+		else if (SoulFire::Input::GetKey(SF_KEY_K)) move.y -= camMoveSpeed;
+
+		if (glm::length(move) > 0.0f) {
+			move = glm::normalize(move);
+			move *= SoulFire::Time::GetDeltaTime();
+			m_Camera->SetPosition(m_Camera->GetPosition() + move);
+		}
+
+		float rotation = 0.0f;
+		if (SoulFire::Input::GetKey(SF_KEY_Q)) rotation += camRotSpeed; //clockwise (object is counterclockwise)
+		else if (SoulFire::Input::GetKey(SF_KEY_E)) rotation -= camRotSpeed; //counter-clockwise (object is clockwise)
+
+		if (rotation != 0.0f) {
+			rotation *= SoulFire::Time::GetDeltaTime();
+			m_Camera->RotateFixed(glm::vec3(0.0f, 0.0f, rotation));
+		}
+
+		//Objects
+		move = glm::vec3(0.0f);
+		if (SoulFire::Input::GetKey(SF_KEY_D) || SoulFire::Input::GetKey(SF_KEY_RIGHT)) move.x += objectMoveSpeed;
+		else if (SoulFire::Input::GetKey(SF_KEY_A) || SoulFire::Input::GetKey(SF_KEY_LEFT)) move.x -= objectMoveSpeed;
+		if (SoulFire::Input::GetKey(SF_KEY_W) || SoulFire::Input::GetKey(SF_KEY_UP)) move.y += objectMoveSpeed;
+		else if (SoulFire::Input::GetKey(SF_KEY_S) || SoulFire::Input::GetKey(SF_KEY_DOWN)) move.y -= objectMoveSpeed;
+
+		if (glm::length(move) > 0.0f) {
+			move = glm::normalize(move);
+			move *= SoulFire::Time::GetDeltaTime();
+			m_SquareTrans.SetPosition(m_SquareTrans.GetPosition() + move);
+			//m_TriangleTrans.SetPosition(m_TriangleTrans.GetPosition() + move);
+		}
+
 		if (SoulFire::Input::GetKeyDown(SF_KEY_TAB)) {
 			glm::vec2 currentPos = glm::vec2(SoulFire::Input::GetMouseX(), SoulFire::Input::GetMouseY());
 
@@ -134,18 +237,27 @@ public:
 
 		SoulFire::RenderCommand::Clear(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
 
-		SoulFire::Renderer::BeginRenderPass();
+		SoulFire::Renderer::BeginRenderPass(m_Camera);
 
 		m_SquareShader->Bind();
-		SoulFire::RenderCommand::Draw(m_SquareVAO);
+		m_SquareShader->SetUniform("u_Color", m_objectColour);
 		m_SquareShader->UnBind();
 
-
 		m_Shader->Bind();
-		SoulFire::RenderCommand::Draw(m_VAO);
+		m_Shader->SetUniform("u_Color", m_objectColour);
 		m_Shader->UnBind();
 
+		m_textureTransparent->Bind(0);
+		//m_texturedShader->SetUniform("u_Texture", 0);
+
+		SoulFire::Renderer::AddToPass(m_VAO, m_Shader, m_TriangleTrans);
+		SoulFire::Renderer::AddToPass(m_SquareVAO, m_texturedShader, m_SquareTrans);
+
+		m_texture->UnBind(0);
 		SoulFire::Renderer::EndRenderPass();
+	}
+
+	void OnEvent(SoulFire::Event& ev) override {
 	}
 
 	void ImGuiRender() override {
@@ -153,15 +265,32 @@ public:
 
 		ImGui::Text("Hello world!");
 
+		ImGui::ColorPicker4("Object Colour", glm::value_ptr(m_objectColour));
+
 		ImGui::End();
 	}
 
 private:
 	glm::vec2 lastPos = glm::vec2(0.0f, 0.0f);
 
-	SoulFire::Shader::sptr m_Shader;
-	SoulFire::VertexArrayObject::sptr m_VAO;
+	SoulFire::sptr<SoulFire::Shader> m_Shader;
+	SoulFire::sptr<SoulFire::VertexArrayObject> m_VAO;
 
-	SoulFire::Shader::sptr m_SquareShader;
-	SoulFire::VertexArrayObject::sptr m_SquareVAO;
+	SoulFire::sptr<SoulFire::Shader> m_SquareShader;
+	SoulFire::sptr<SoulFire::VertexArrayObject> m_SquareVAO;
+	SoulFire::sptr<SoulFire::Camera> m_Camera;
+
+	SoulFire::sptr<SoulFire::Shader> m_texturedShader;
+
+	float camMoveSpeed = 2.5f;
+	float camRotSpeed = 90.0f;
+
+	SoulFire::Transform m_SquareTrans;
+	SoulFire::Transform m_TriangleTrans;
+	float objectMoveSpeed = 5.0f;
+
+	glm::vec4 m_objectColour = glm::vec4(0.2f, 0.3f, 0.8f, 1.0f);
+
+	SoulFire::sptr<SoulFire::Texture2D> m_texture;
+	SoulFire::sptr<SoulFire::Texture2D> m_textureTransparent;
 };

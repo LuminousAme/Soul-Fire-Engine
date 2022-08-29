@@ -101,8 +101,6 @@ namespace SoulFire {
 
 	class VertexBuffer {
 	public:
-		typedef std::shared_ptr<VertexBuffer> sptr;
-	public:
 		virtual ~VertexBuffer() {};
 
 		virtual void Bind() const = 0;
@@ -117,8 +115,6 @@ namespace SoulFire {
 	};
 
 	class IndexBuffer {
-	public:
-		typedef std::shared_ptr<IndexBuffer> sptr;
 	public:
 		virtual ~IndexBuffer() {};
 

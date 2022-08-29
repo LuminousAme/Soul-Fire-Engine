@@ -8,9 +8,11 @@ namespace SoulFire {
 	public:
 		OpenGLRendererAPI();
 
-		void Clear(const glm::vec4& color = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f));
+		void Init() override;
 
-		void Draw(const VertexArrayObject::sptr& VAO) override;
+		void Clear(const glm::vec4& color = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f)) override;
+
+		void Draw(const sptr<VertexArrayObject>& VAO) override;
 	private:
 		glm::vec4 m_clearColor;
 	};

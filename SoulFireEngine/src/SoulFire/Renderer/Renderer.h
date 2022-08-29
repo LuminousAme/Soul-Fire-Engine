@@ -3,16 +3,27 @@
 #pragma once
 
 #include "RenderCommand.h"
+#include "Camera.h"
+#include "Shader.h"
+#include "SoulFire/Compontents/Transform.h"
 
 namespace SoulFire {
 
 	class Renderer {
 	public:
-		static void BeginRenderPass();
+		static void Init();
+
+		static void BeginRenderPass(sptr<Camera>& cam);
 		static void EndRenderPass();
 
-		static void AddToPass(const VertexArrayObject::sptr& VAO);
+		static void AddToPass(const sptr<VertexArrayObject>& VAO, const sptr<Shader>& shader, Transform& trans);
 
 		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
+	private:
+		struct SceneData {
+			glm::mat4 VP;
+		};
+
+		static SceneData* s_SceneData;
 	};
 }

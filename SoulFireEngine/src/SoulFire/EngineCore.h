@@ -22,3 +22,13 @@
 #ifndef GLFW_INCLUDE_NONE
 #define GLFW_INCLUDE_NONE
 #endif
+
+#define SF_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
+
+namespace SoulFire {
+	template<typename T>
+	using uptr = std::unique_ptr<T>;
+
+	template<typename T>
+	using sptr = std::shared_ptr<T>;
+}

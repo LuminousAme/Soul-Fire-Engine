@@ -49,7 +49,7 @@ namespace SoulFire {
 		glBindVertexArray(0);
 	}
 
-	void OpenGLVertexArrayObject::AddVertexBuffer(const VertexBuffer::sptr& vbo)
+	void OpenGLVertexArrayObject::AddVertexBuffer(const sptr<VertexBuffer>& vbo)
 	{
 		SF_ENGINE_LOG_ASSERT(vbo->GetLayout().GetElements().size(), "Vertex Buffer has no layout!");
 
@@ -82,7 +82,7 @@ namespace SoulFire {
 		UnBind();
 	}
 
-	void OpenGLVertexArrayObject::SetIndexBuffer(const IndexBuffer::sptr& ibo)
+	void OpenGLVertexArrayObject::SetIndexBuffer(const sptr<IndexBuffer>& ibo)
 	{
 		Bind();
 		m_IBO = ibo;

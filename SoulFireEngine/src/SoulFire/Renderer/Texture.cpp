@@ -1,12 +1,14 @@
 //Soul Fire Engine By Ame Gilham, inspired by The Cherno's Hazel
-//Shader.cpp - source file for the class that represnets a complete shader program that can interface with different API 
-#include "SF_PCH.h"
-#include "Shader.h"
+//Texture.cpp - source file for the classes that represent textures regardless of API
 
-#include "SoulFire/Platforms/OpenGL/OpenGLShader.h"
+#include "SF_PCH.h"
+#include "Texture.h"
+
+#include "SoulFire/Platforms/OpenGL/OpenGLTexture.h"
+
 
 namespace SoulFire {
-	Shader* Shader::Create()
+	sptr<Texture2D> Texture2D::Create(const std::string& filepath, bool generateMipmaps)
 	{
 		switch (RendererAPI::GetAPI())
 		{
@@ -14,7 +16,7 @@ namespace SoulFire {
 			SF_ENGINE_LOG_ERROR("No graphics API selected");
 			return nullptr;
 		case RendererAPI::API::OPENGL:
-			return new OpenGLShader();
+			return std::make_shared<OpenGLTexture2D>(filepath, generateMipmaps);
 		}
 
 		SF_ENGINE_LOG_ERROR("Unknown Graphics API");

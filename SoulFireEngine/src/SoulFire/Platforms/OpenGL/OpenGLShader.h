@@ -26,6 +26,19 @@ namespace SoulFire {
 		//Unbinds the shader program so we can use another
 		void UnBind() const override { glUseProgram(0); }
 
+		void SetUniform(const std::string& name, const float& value, int count = 1) override;
+		void SetUniform(const std::string& name, const glm::vec2& value, int count = 1) override;
+		void SetUniform(const std::string& name, const glm::vec3& value, int count = 1) override;
+		void SetUniform(const std::string& name, const glm::vec4& value, int count = 1) override;
+		void SetUniform(const std::string& name, const int& value, int count = 1) override;
+		void SetUniform(const std::string& name, const glm::ivec2& value, int count = 1) override;
+		void SetUniform(const std::string& name, const glm::ivec3& value, int count = 1) override;
+		void SetUniform(const std::string& name, const glm::ivec4& value, int count = 1) override;
+		void SetUniform(const std::string& name, const bool& value, int count = 1) override;
+
+		void SetUniformMatrix(const std::string& name, const glm::mat3& value, int count = 1, bool transposed = false) override;
+		void SetUniformMatrix(const std::string& name, const glm::mat4& value, int count = 1, bool transposed = false) override;
+
 	private:
 		//vertex shader
 		GLuint m_vs;
@@ -35,5 +48,10 @@ namespace SoulFire {
 		GLuint m_handle;
 
 		GLenum ConvertShaderType(ShaderType type);
+
+		//unordered map to store the locations of all the uniforms
+		std::unordered_map<std::string, int> m_uniformLocations;
+		//function to get the locations of all the uniforms
+		int GetUniformLocation(const std::string& name);
 	};
 }

@@ -14,17 +14,17 @@ namespace SoulFire {
 		void Bind() const override;
 		void UnBind() const override;
 
-		void AddVertexBuffer(const VertexBuffer::sptr& vbo) override;
-		void SetIndexBuffer(const IndexBuffer::sptr& ibo) override;
+		void AddVertexBuffer(const sptr<VertexBuffer>& vbo) override;
+		void SetIndexBuffer(const sptr<IndexBuffer>& ibo) override;
 
-		const std::vector<VertexBuffer::sptr>& GetVertexBuffers() const override { return m_VBOs; };
-		const IndexBuffer::sptr& GetIndexBuffer() const override { return m_IBO; };
+		const std::vector<sptr<VertexBuffer>>& GetVertexBuffers() const override { return m_VBOs; };
+		const sptr<IndexBuffer>& GetIndexBuffer() const override { return m_IBO; };
 
 		uint32_t GetVertexCount() const override { return m_vertexCount; };
 
 	private:
-		std::vector<VertexBuffer::sptr> m_VBOs;
-		IndexBuffer::sptr m_IBO;
+		std::vector<sptr<VertexBuffer>> m_VBOs;
+		sptr<IndexBuffer> m_IBO;
 		GLuint m_handle;
 		uint32_t m_vertexCount;
 	};

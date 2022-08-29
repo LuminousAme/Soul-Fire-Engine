@@ -22,6 +22,7 @@ IncludeDirTable["GLFW"] = "SoulFireEngine/dependencies/glfw3/include"
 IncludeDirTable["GLAD"] = "SoulFireEngine/dependencies/Glad/include"
 IncludeDirTable["GLM"] = "SoulFireEngine/dependencies/glm/include"
 IncludeDirTable["ImGui"] = "SoulFireEngine/dependencies/Imgui"
+IncludeDirTable["stb_image"] = "SoulFireEngine/dependencies/stb_image"
 
 -- include the glfw premake
 group "Dependencies"
@@ -47,7 +48,9 @@ project "SoulFireEngine"
 	files
 	{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/dependencies/stb_image/**.h",
+		"%{prj.name}/dependencies/stb_image/**.cpp"
 	}
 
 	defines 
@@ -62,7 +65,8 @@ project "SoulFireEngine"
 		"%{IncludeDirTable.GLFW}",
 		"%{IncludeDirTable.GLAD}",
 		"%{IncludeDirTable.GLM}",
-		"%{IncludeDirTable.ImGui}"
+		"%{IncludeDirTable.ImGui}",
+		"%{IncludeDirTable.stb_image}"
 	}
 
 	links {
