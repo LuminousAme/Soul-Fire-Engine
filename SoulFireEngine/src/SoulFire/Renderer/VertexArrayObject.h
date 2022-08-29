@@ -21,6 +21,6 @@ namespace SoulFire {
 
 		virtual uint32_t GetVertexCount() const = 0;
 
-		static VertexArrayObject* Create();
+		static sptr<VertexArrayObject> Create();
 	};
 }

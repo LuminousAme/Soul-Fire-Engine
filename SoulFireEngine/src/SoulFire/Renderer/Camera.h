@@ -27,8 +27,8 @@ namespace SoulFire {
 
 		glm::mat4& GetVP();
 
-		static Camera* Create(float left, float right, float bottom, float top, float nearClip, float farClip);
-		static Camera* Create(float fovDegrees, float aspectRatio, float nearClip, float farClip);
+		static sptr<Camera> Create(float left, float right, float bottom, float top, float nearClip, float farClip);
+		static sptr<Camera> Create(float fovDegrees, float aspectRatio, float nearClip, float farClip);
 	protected:
 		virtual void UpdateProjection() = 0;
 		void UpdateView();

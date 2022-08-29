@@ -111,7 +111,7 @@ namespace SoulFire {
 
 		virtual uint32_t GetCount() const = 0;
 
-		static VertexBuffer* Create(float* vertices, uint32_t size);
+		static sptr<VertexBuffer> Create(float* vertices, uint32_t size);
 	};
 
 	class IndexBuffer {
@@ -124,6 +124,6 @@ namespace SoulFire {
 		virtual uint32_t GetCount() const = 0;
 		virtual IndexElementType GetElementType() const = 0;
 
-		static IndexBuffer* Create(uint32_t* indices, uint32_t count);
+		static sptr<IndexBuffer> Create(uint32_t* indices, uint32_t count);
 	};
 }

@@ -10,10 +10,26 @@ namespace SoulFire {
 
 		void Init() override;
 
-		void Clear(const glm::vec4& color = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f)) override;
+		void Clear(RendererEnums::ClearFlags flags, const glm::vec4& color, float depthClearValue) override;
 
 		void Draw(const sptr<VertexArrayObject>& VAO) override;
+
+		void UseDepthTest(bool useDepth) override;
+
+		void SetDepthFunction(RendererEnums::DepthFunctions depthfunc) override;
+
+		void UseCulling(bool useCulling) override;
+
+		void SetCullMode(RendererEnums::CullModes mode) override;
+
+		void UseBlending(bool useBlending) override;
+
+		void SetBlendFunc(RendererEnums::BlendFuncSrc src, RendererEnums::BlendFuncDst dst) override;
+
+		TextureLimits GetTextureLimits() override;
 	private:
 		glm::vec4 m_clearColor;
+
+		TextureLimits m_textureLimits;
 	};
 }

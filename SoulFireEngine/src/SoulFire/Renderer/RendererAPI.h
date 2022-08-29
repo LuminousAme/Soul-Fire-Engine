@@ -4,6 +4,7 @@
 
 #include "SF_PCH.h"
 #include "VertexArrayObject.h"
+#include "RendererEnums.h"
 
 namespace SoulFire {
 	class RendererAPI {
@@ -14,9 +15,23 @@ namespace SoulFire {
 	public:
 		virtual void Init() = 0;
 
-		virtual void Clear(const glm::vec4& color = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f)) = 0;
+		virtual void Clear(RendererEnums::ClearFlags flags, const glm::vec4& color = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f), float depthClearValue = 1.0f) = 0;
 		
 		virtual void Draw(const sptr<VertexArrayObject>& VAO) = 0;
+
+		virtual void UseDepthTest(bool useDepth) = 0;
+
+		virtual void SetDepthFunction(RendererEnums::DepthFunctions depthfunc) = 0;
+
+		virtual void UseCulling(bool useCulling) = 0;
+
+		virtual void SetCullMode(RendererEnums::CullModes mode) = 0;
+
+		virtual void UseBlending(bool useBlending) = 0;
+
+		virtual void SetBlendFunc(RendererEnums::BlendFuncSrc src, RendererEnums::BlendFuncDst dst) = 0;
+
+		virtual TextureLimits GetTextureLimits() = 0;
 
 		inline static API GetAPI() { return s_API; }
 	private:

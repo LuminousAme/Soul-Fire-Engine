@@ -51,7 +51,7 @@ namespace SoulFire {
 		virtual void SetUniformMatrix(const std::string& name, const glm::mat4& value, int count = 1, bool transposed = false) = 0;
 
 		//creates a shader
-		static Shader* Create(const std::string& name);
+		static sptr<Shader> Create(const std::string& name);
 	};
 
 	class ShaderLibrary {

@@ -9,7 +9,7 @@
 
 namespace SoulFire {
 
-	VertexArrayObject* VertexArrayObject::Create()
+	sptr<VertexArrayObject> VertexArrayObject::Create()
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -17,7 +17,7 @@ namespace SoulFire {
 			SF_ENGINE_LOG_ERROR("No graphics API selected");
 			return nullptr;
 		case RendererAPI::API::OPENGL:
-			return new OpenGLVertexArrayObject();
+			return std::make_shared<OpenGLVertexArrayObject>();
 			break;
 		}
 

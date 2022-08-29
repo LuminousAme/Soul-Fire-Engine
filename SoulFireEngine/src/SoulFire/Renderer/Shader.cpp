@@ -6,7 +6,7 @@
 #include "SoulFire/Platforms/OpenGL/OpenGLShader.h"
 
 namespace SoulFire {
-	Shader* Shader::Create(const std::string& name)
+	sptr<Shader> Shader::Create(const std::string& name)
 	{
 		switch (RendererAPI::GetAPI())
 		{
@@ -14,7 +14,7 @@ namespace SoulFire {
 			SF_ENGINE_LOG_ERROR("No graphics API selected");
 			return nullptr;
 		case RendererAPI::API::OPENGL:
-			return new OpenGLShader(name);
+			return std::make_shared<OpenGLShader>(name);
 		}
 
 		SF_ENGINE_LOG_ERROR("Unknown Graphics API");
@@ -44,8 +44,7 @@ namespace SoulFire {
 
 	sptr<Shader> ShaderLibrary::Load(const std::string& name, const std::string& filePath)
 	{
-		sptr<Shader> newShader;
-		newShader.reset(Shader::Create(name));
+		sptr<Shader> newShader = Shader::Create(name);
 		newShader->LoadFullShaderFromFile(filePath.c_str());
 		newShader->Link();
 
@@ -56,8 +55,7 @@ namespace SoulFire {
 
 	sptr<Shader> ShaderLibrary::Load(const std::string& name, const std::string& vertexFilePath, const std::string& fragmentFilePath)
 	{
-		sptr<Shader> newShader;
-		newShader.reset(Shader::Create(name));
+		sptr<Shader> newShader = Shader::Create(name);
 		newShader->LoadShaderStageFromFile(vertexFilePath.c_str(), ShaderType::VERTEX);
 		newShader->LoadShaderStageFromFile(fragmentFilePath.c_str(), ShaderType::FRAGMENT);
 		newShader->Link();

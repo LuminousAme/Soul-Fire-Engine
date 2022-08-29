@@ -62,14 +62,14 @@ namespace SoulFire {
 		return m_vp;
 	}
 
-	Camera* Camera::Create(float left, float right, float bottom, float top, float nearClip, float farClip)
+	sptr<Camera> Camera::Create(float left, float right, float bottom, float top, float nearClip, float farClip)
 	{
-		return new OrthographicCamera(left, right, bottom, top, nearClip, farClip);
+		return std::make_shared<OrthographicCamera>(left, right, bottom, top, nearClip, farClip);
 	}
 
-	Camera* Camera::Create(float fovDegrees, float aspectRatio, float nearClip, float farClip)
+	sptr<Camera> Camera::Create(float fovDegrees, float aspectRatio, float nearClip, float farClip)
 	{
-		return new PrespectiveCamera(fovDegrees, aspectRatio, nearClip, farClip);
+		return std::make_shared<PrespectiveCamera>(fovDegrees, aspectRatio, nearClip, farClip);
 	}
 
 	void Camera::UpdateView()

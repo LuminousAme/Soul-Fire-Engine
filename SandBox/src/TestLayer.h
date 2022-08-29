@@ -9,13 +9,13 @@ public:
 	{
 		lastPos = glm::vec2(SoulFire::Input::GetMouseX(), SoulFire::Input::GetMouseY());
 
-		m_Camera.reset(SoulFire::Camera::Create(2.0 * -1.6f, 2.0 * 1.6f, 2.0 * -1.0f, 2.0 * 1.0f, -1.0f, 1.0f));
+		m_Camera = SoulFire::Camera::Create(2.0 * -1.6f, 2.0 * 1.6f, 2.0 * -1.0f, 2.0 * 1.0f, -1.0f, 1.0f);
 		m_Camera->SetPosition(glm::vec3(0.5f, 0.5f, 0.0f));
 
 		m_TriangleTrans = SoulFire::Transform();
 		m_SquareTrans = SoulFire::Transform();
 
-		m_VAO.reset(SoulFire::VertexArrayObject::Create());
+		m_VAO = SoulFire::VertexArrayObject::Create();
 
 		float vertices[3 * 7] = {
 			-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
@@ -24,7 +24,7 @@ public:
 		};
 
 		SoulFire::sptr<SoulFire::VertexBuffer> VBO;
-		VBO.reset(SoulFire::VertexBuffer::Create(vertices, sizeof(vertices)));
+		VBO = SoulFire::VertexBuffer::Create(vertices, sizeof(vertices));
 
 		//create the layout
 		SoulFire::BufferLayout layout = {
@@ -36,10 +36,10 @@ public:
 
 		uint32_t indices[3] = { 0, 1, 2 };
 		SoulFire::sptr<SoulFire::IndexBuffer> IBO;
-		IBO.reset(SoulFire::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+		IBO = SoulFire::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t));
 		m_VAO->SetIndexBuffer(IBO);
 
-		m_SquareVAO.reset(SoulFire::VertexArrayObject::Create());
+		m_SquareVAO = SoulFire::VertexArrayObject::Create();
 
 		float squareVertices[4 * 5] = {
 			-0.75f,	 -0.75f,  0.0f,  0.0f,  0.0f,
@@ -48,7 +48,7 @@ public:
 			-0.75f,   0.75f,  0.0f,  0.0f,  1.0f
 		};
 		SoulFire::sptr<SoulFire::VertexBuffer> sqaureVBO;
-		sqaureVBO.reset(SoulFire::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
+		sqaureVBO = SoulFire::VertexBuffer::Create(squareVertices, sizeof(squareVertices));
 		sqaureVBO->SetLayout({ 
 			{ SoulFire::ShaderDataType::Vec3, "inPosition" },
 			{ SoulFire::ShaderDataType::Vec2, "inUv" }
@@ -57,7 +57,7 @@ public:
 
 		uint32_t sqaureIndices[6] = { 0, 1, 2, 2, 3, 0 };
 		SoulFire::sptr<SoulFire::IndexBuffer> sqaureIBO;
-		sqaureIBO.reset(SoulFire::IndexBuffer::Create(sqaureIndices, sizeof(sqaureIndices) / sizeof(uint32_t)));
+		sqaureIBO = SoulFire::IndexBuffer::Create(sqaureIndices, sizeof(sqaureIndices) / sizeof(uint32_t));
 		m_SquareVAO->SetIndexBuffer(sqaureIBO);
 
 		std::string vertShaderSrc = R"(
@@ -129,13 +129,13 @@ public:
 
 		)";
 
-		m_Shader.reset(SoulFire::Shader::Create("TriangleShader"));
+		m_Shader = SoulFire::Shader::Create("TriangleShader");
 
 		m_Shader->LoadShaderStage(vertShaderSrc.c_str(), SoulFire::ShaderType::VERTEX);
 		m_Shader->LoadShaderStage(fragShaderSrc.c_str(), SoulFire::ShaderType::FRAGMENT);
 		m_Shader->Link();
 
-		m_SquareShader.reset(SoulFire::Shader::Create("SquareShader"));
+		m_SquareShader = SoulFire::Shader::Create("SquareShader");
 
 		m_SquareShader->LoadShaderStage(squareVertShaderSrc.c_str(), SoulFire::ShaderType::VERTEX);
 		m_SquareShader->LoadShaderStage(sqaureFragShaderSrc.c_str(), SoulFire::ShaderType::FRAGMENT);
@@ -185,40 +185,19 @@ public:
 	}
 
 	void Update() override {
-		//CAMERA
-		glm::vec3 move = glm::vec3(0.0f);
-		if (SoulFire::Input::GetKey(SF_KEY_L)) move.x += camMoveSpeed;
-		else if (SoulFire::Input::GetKey(SF_KEY_J)) move.x -= camMoveSpeed;
-		if (SoulFire::Input::GetKey(SF_KEY_I)) move.y += camMoveSpeed;
-		else if (SoulFire::Input::GetKey(SF_KEY_K)) move.y -= camMoveSpeed;
-
-		if (glm::length(move) > 0.0f) {
-			move = glm::normalize(move);
-			move *= SoulFire::Time::GetDeltaTime();
-			m_Camera->SetPosition(m_Camera->GetPosition() + move);
-		}
-
-		float rotation = 0.0f;
-		if (SoulFire::Input::GetKey(SF_KEY_Q)) rotation += camRotSpeed; //clockwise (object is counterclockwise)
-		else if (SoulFire::Input::GetKey(SF_KEY_E)) rotation -= camRotSpeed; //counter-clockwise (object is clockwise)
-
-		if (rotation != 0.0f) {
-			rotation *= SoulFire::Time::GetDeltaTime();
-			m_Camera->RotateFixed(glm::vec3(0.0f, 0.0f, rotation));
-		}
-
 		//Objects
-		move = glm::vec3(0.0f);
+		glm::vec3 move = glm::vec3(0.0f);
 		if (SoulFire::Input::GetKey(SF_KEY_D) || SoulFire::Input::GetKey(SF_KEY_RIGHT)) move.x += objectMoveSpeed;
 		else if (SoulFire::Input::GetKey(SF_KEY_A) || SoulFire::Input::GetKey(SF_KEY_LEFT)) move.x -= objectMoveSpeed;
 		if (SoulFire::Input::GetKey(SF_KEY_W) || SoulFire::Input::GetKey(SF_KEY_UP)) move.y += objectMoveSpeed;
 		else if (SoulFire::Input::GetKey(SF_KEY_S) || SoulFire::Input::GetKey(SF_KEY_DOWN)) move.y -= objectMoveSpeed;
+		if (SoulFire::Input::GetKey(SF_KEY_Q)) move.z += objectMoveSpeed;
+		else if (SoulFire::Input::GetKey(SF_KEY_E)) move.z -= objectMoveSpeed;
 
 		if (glm::length(move) > 0.0f) {
 			move = glm::normalize(move);
 			move *= SoulFire::Time::GetDeltaTime();
 			m_SquareTrans.SetPosition(m_SquareTrans.GetPosition() + move);
-			//m_TriangleTrans.SetPosition(m_TriangleTrans.GetPosition() + move);
 		}
 
 		if (SoulFire::Input::GetKeyDown(SF_KEY_TAB)) {
@@ -231,7 +210,10 @@ public:
 			lastPos = currentPos;
 		}
 
-		SoulFire::RenderCommand::Clear(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
+		SoulFire::RendererEnums::ClearFlags clearFlags;
+		clearFlags = (SoulFire::RendererEnums::ClearFlags)
+			(SoulFire::RendererEnums::ClearFlags::ClearColorBuffer | SoulFire::RendererEnums::ClearFlags::ClearDepthBuffer);
+		SoulFire::RenderCommand::Clear(clearFlags, glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
 
 		SoulFire::Renderer::BeginRenderPass(m_Camera);
 
