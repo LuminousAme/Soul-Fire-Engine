@@ -3,9 +3,9 @@
 
 #include "SF_PCH.h"
 #include "WindowsInput.h"
-#include "SoulFire/Application.h"
+#include "SoulFire/Core/Application.h"
 
-#include "SoulFire/InputCodes.h"
+#include "SoulFire/Core/InputCodes.h"
 #include "GLFW/glfw3.h"
 
 namespace SoulFire {

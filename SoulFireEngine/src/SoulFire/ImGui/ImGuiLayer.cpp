@@ -10,7 +10,7 @@
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
 #include "GLFW/glfw3.h"
-#include "SoulFire/Application.h"
+#include "SoulFire/Core/Application.h"
 
 //temp, replace when doing acutal rendering later
 #include <GLFW/glfw3.h>

@@ -11,8 +11,16 @@ public:
 	{
 		lastPos = glm::vec2(SoulFire::Input::GetMouseX(), SoulFire::Input::GetMouseY());
 
-		m_Camera = SoulFire::Camera::Create(2.0 * -1.6f, 2.0 * 1.6f, 2.0 * -1.0f, 2.0 * 1.0f, -1.0f, 1.0f);
-		m_Camera->SetPosition(glm::vec3(0.5f, 0.5f, 0.0f));
+		int width, height;
+		{
+			SoulFire::Window& wind = SoulFire::Application::GetApp().GetWindow();
+			width = wind.GetWidth();
+			height = wind.GetHeight();
+		}
+		m_CameraController = SoulFire::OrthograhpicCameraController((float)width/(float)height);
+
+		//m_Camera = SoulFire::Camera::Create(2.0 * -1.6f, 2.0 * 1.6f, 2.0 * -1.0f, 2.0 * 1.0f, -1.0f, 1.0f);
+		//m_Camera->SetPosition(glm::vec3(0.5f, 0.5f, 0.0f));
 
 		m_TriangleTrans = SoulFire::Transform();
 		m_SquareTrans = SoulFire::Transform();
@@ -215,7 +223,9 @@ public:
 		int clearFlags = (SoulFire::ClearFlags::ClearColorBuffer | SoulFire::ClearFlags::ClearDepthBuffer);
 		SoulFire::RenderCommand::Clear(clearFlags, glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
 
-		SoulFire::Renderer::BeginRenderPass(m_Camera);
+		m_CameraController.Update();
+
+		SoulFire::Renderer::BeginRenderPass(m_CameraController.GetCamera());
 
 		m_SquareShader->Bind();
 		m_SquareShader->SetUniform("u_Color", m_objectColour);
@@ -236,6 +246,7 @@ public:
 	}
 
 	void OnEvent(SoulFire::Event& ev) override {
+		m_CameraController.OnEvent(ev);
 	}
 
 	void ImGuiRender() override {
@@ -258,7 +269,7 @@ private:
 
 	SoulFire::sptr<SoulFire::Shader> m_SquareShader;
 	SoulFire::sptr<SoulFire::VertexArrayObject> m_SquareVAO;
-	SoulFire::sptr<SoulFire::Camera> m_Camera;
+	SoulFire::OrthograhpicCameraController m_CameraController;
 
 	float camMoveSpeed = 2.5f;
 	float camRotSpeed = 90.0f;

@@ -2,7 +2,7 @@
 //ImGuiLayer.h - header file for the layer that interfaces with ImGui
 #pragma once
 
-#include "SoulFire/Layer.h"
+#include "SoulFire/Core/Layer.h"
 
 #include "SoulFire/Events/ApplicationEvent.h"
 #include "SoulFire/Events/KeyEvent.h"

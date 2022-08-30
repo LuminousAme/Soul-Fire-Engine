@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "SoulFire/EngineCore.h"
+#include "SoulFire/Core/EngineCore.h"
 #include "SoulFire/Events/Event.h"
 
 namespace SoulFire {

@@ -44,7 +44,9 @@ namespace SoulFire {
 		//make a dispatcher
 		EventDispatcher dispatcher(ev);
 		//check if it's a window close event and if it is, run the window close function
-		dispatcher.Dispatch<WindowCloseEvent>(std::bind(&Application::OnWindowClose, this, std::placeholders::_1));
+		dispatcher.Dispatch<WindowCloseEvent>(SF_BIND_EVENT_FN(Application::OnWindowClose));
+		//check if it's a window resize event and if it is, process it
+		dispatcher.Dispatch<WindowResizeEvent>(SF_BIND_EVENT_FN(Application::OnWindowResize));
 
 		//send the events through the layers in reverse order until one of them handles the event
 		for (auto it = m_layerTree.end(); it != m_layerTree.begin();) {
@@ -73,8 +75,10 @@ namespace SoulFire {
 		while (m_running) {
 			Time::BeginFrame();
 
-			//update all of the layers
-			for (Layer* layer : m_layerTree) layer->Update();
+			if (!m_minimized) {
+				//update all of the layers
+				for (Layer* layer : m_layerTree) layer->Update();
+			}
 
 			//begin imgui
 			m_imguiLayer->Begin();
@@ -103,5 +107,19 @@ namespace SoulFire {
 		m_running = false;
 		//and the event handled is true
 		return true;
+	}
+
+	bool Application::OnWindowResize(WindowResizeEvent& ev)
+	{
+		if (ev.GetWidth() == 0 || ev.GetHeight() == 0) {
+			m_minimized = true;
+			return false;
+		}
+
+		if (m_minimized) m_minimized = false;
+
+		Renderer::NaiveWindowResize(ev.GetWidth(), ev.GetHeight());
+
+		return false;
 	}
 }

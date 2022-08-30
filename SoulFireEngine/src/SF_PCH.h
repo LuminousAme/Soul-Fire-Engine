@@ -13,7 +13,7 @@
 #include <sstream>
 #include <vector>
 #include <unordered_map>
-#include "SoulFire/Logger.h"
+#include "SoulFire/Core/Logger.h"
 
 //math
 #include "GLM/glm.hpp"

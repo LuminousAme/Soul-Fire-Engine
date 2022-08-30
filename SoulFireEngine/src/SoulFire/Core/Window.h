@@ -3,7 +3,7 @@
 #pragma once
 
 #include "SF_PCH.h"
-#include "SoulFire/EngineCore.h"
+#include "SoulFire/Core/EngineCore.h"
 #include "SoulFire/Events/Event.h"
 #include "SoulFire/Renderer/GraphicsContext.h"
 

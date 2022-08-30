@@ -29,4 +29,9 @@ namespace SoulFire {
 		RenderCommand::Draw(VAO);
 		shader->UnBind();
 	}
+
+	void Renderer::NaiveWindowResize(uint32_t width, uint32_t height)
+	{
+		RenderCommand::SetViewPort(0, 0, width, height);
+	}
 }

@@ -2,7 +2,7 @@
 //WindowsInput.h - header for the input handler implementation for microsoft windows
 #pragma once
 
-#include "SoulFire/Input.h"
+#include "SoulFire/Core/Input.h"
 
 namespace SoulFire {
 	class WindowsInput : public Input

@@ -7,13 +7,13 @@
 #include "LayerTree.h"
 
 //include all of the different event files
-#include "Events/Event.h"
-#include "Events/ApplicationEvent.h"
-#include "Events/MouseEvent.h"
-#include "Events/KeyEvent.h"
+#include "SoulFire/Events/Event.h"
+#include "SoulFire/Events/ApplicationEvent.h"
+#include "SoulFire/Events/MouseEvent.h"
+#include "SoulFire/Events/KeyEvent.h"
 
 //include the imgui layer
-#include "ImGui/ImGuiLayer.h"
+#include "SoulFire/ImGui/ImGuiLayer.h"
 
 //include graphics stuff
 #include "SoulFire/Renderer/Shader.h"
@@ -42,6 +42,7 @@ namespace SoulFire {
 
 	private:
 		bool OnWindowClose(WindowCloseEvent& ev);
+		bool OnWindowResize(WindowResizeEvent& ev);
 
 	private:
 		//the window
@@ -49,6 +50,7 @@ namespace SoulFire {
 		ImGuiLayer* m_imguiLayer;
 		//wheter or not the application is running
 		bool m_running = true;
+		bool m_minimized = false;
 
 		//the layerstack
 		LayerTree m_layerTree;

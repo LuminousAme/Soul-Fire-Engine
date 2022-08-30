@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "SoulFire/EngineCore.h"
+#include "SoulFire/Core/EngineCore.h"
 #include "Layer.h"
 
 namespace SoulFire {

@@ -18,6 +18,8 @@ namespace SoulFire {
 
 		static void AddToPass(const sptr<VertexArrayObject>& VAO, const sptr<Shader>& shader, Transform& trans);
 
+		static void NaiveWindowResize(uint32_t width, uint32_t height);
+
 		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 	private:
 		struct SceneData {

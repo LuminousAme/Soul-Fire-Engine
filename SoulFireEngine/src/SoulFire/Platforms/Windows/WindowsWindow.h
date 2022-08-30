@@ -2,7 +2,7 @@
 //WindowsWindow.h - header file for soul fire windows on the Microsoft windows platform
 #pragma once
 
-#include "SoulFire/Window.h"
+#include "SoulFire/Core/Window.h"
 #include "SoulFire/Platforms/OpenGL/OpenGLContext.h"
 
 namespace SoulFire {

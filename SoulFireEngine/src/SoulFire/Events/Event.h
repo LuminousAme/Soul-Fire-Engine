@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "SoulFire/EngineCore.h"
+#include "SoulFire/Core/EngineCore.h"
 
 namespace SoulFire {
 	//events are currently blocking so they are executed as soon as they callback, no queuing
