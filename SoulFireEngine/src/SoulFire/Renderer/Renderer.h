@@ -12,6 +12,7 @@ namespace SoulFire {
 	class Renderer {
 	public:
 		static void Init();
+		static void Shutdown();
 
 		static void BeginRenderPass(sptr<Camera>& cam);
 		static void EndRenderPass();

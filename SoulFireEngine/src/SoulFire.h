@@ -3,7 +3,6 @@
 #pragma once
 
 #include "SF_PCH.h"
-#include "SoulFire/Core/EntryPoint.h"
 #include "SoulFire/Core/Application.h"
 #include "SoulFire/Core/Logger.h"
 #include "SoulFire/Events/Event.h"
@@ -15,6 +14,7 @@
 #include "SoulFire/ImGui/ImGuiLayer.h"
 
 #include "SoulFire/Renderer/Renderer.h"
+#include "SoulFire/Renderer/Renderer2D.h"
 #include "SoulFire/Renderer/RenderCommand.h"
 
 #include "SoulFire/Renderer/Buffer.h"

@@ -105,6 +105,10 @@ namespace SoulFire {
 	{
 		//set the application running to false
 		m_running = false;
+
+		//shutdown the renderer 
+		Renderer::Shutdown();
+
 		//and the event handled is true
 		return true;
 	}

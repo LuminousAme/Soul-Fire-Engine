@@ -15,13 +15,17 @@ namespace SoulFire {
 	public:
 		virtual void Init() = 0;
 
-		virtual void Clear(RendererEnums::ClearFlags flags, const glm::vec4& color = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f), float depthClearValue = 1.0f) = 0;
+		virtual void SetClearColor(const glm::vec4& color) = 0;
+
+		virtual void Clear(RendererEnums::ClearFlags flags) = 0;
+		virtual void Clear(RendererEnums::ClearFlags flags, float depthClearValue) = 0;
+		virtual void Clear(RendererEnums::ClearFlags flags, const glm::vec4& color, float depthClearValue = 1.0f) = 0;
 		
 		virtual void Draw(const sptr<VertexArrayObject>& VAO) = 0;
 
 		virtual void UseDepthTest(bool useDepth) = 0;
 
-		virtual void SetDepthFunction(RendererEnums::DepthFunctions depthfunc) = 0;
+		virtual void SetDepthFunc(RendererEnums::DepthFunctions depthfunc) = 0;
 
 		virtual void UseCulling(bool useCulling) = 0;
 

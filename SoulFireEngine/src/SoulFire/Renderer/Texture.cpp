@@ -23,4 +23,19 @@ namespace SoulFire {
 
 		return nullptr;
 	}
+	sptr<Texture2D> Texture2D::Create(const int& width, const int& height)
+	{
+		switch (RendererAPI::GetAPI())
+		{
+		case RendererAPI::API::NONE:
+			SF_ENGINE_LOG_ERROR("No graphics API selected");
+			return nullptr;
+		case RendererAPI::API::OPENGL:
+			return std::make_shared<OpenGLTexture2D>(width, height);
+		}
+
+		SF_ENGINE_LOG_ERROR("Unknown Graphics API");
+
+		return nullptr;
+	}
 }

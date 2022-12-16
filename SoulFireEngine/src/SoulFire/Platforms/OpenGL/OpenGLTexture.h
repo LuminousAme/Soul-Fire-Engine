@@ -9,10 +9,13 @@ namespace SoulFire {
 	class OpenGLTexture2D : public Texture2D {
 	public:
 		OpenGLTexture2D(std::string filepath, bool generateMipmaps);
+		OpenGLTexture2D(const int& width, const int& height);
 		virtual ~OpenGLTexture2D();
 
 		uint32_t GetWidth() const override { return m_width; };
 		uint32_t GetHeight() const override { return m_height; };
+
+		void SetData(void* data, uint32_t size) override;
 
 		void Bind(uint32_t slot = 0) const override;
 		void UnBind(uint32_t slot = 0) const override;
@@ -29,7 +32,8 @@ namespace SoulFire {
 		std::string m_filepath;
 		uint32_t m_width;
 		uint32_t m_height;
-		GLuint m_handle;
+		uint32_t m_handle;
+		uint32_t m_internalFormat, m_imageFormat;
 
 	private:
 		static bool s_init;

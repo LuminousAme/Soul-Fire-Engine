@@ -2,6 +2,7 @@
 //Renderer.cpp - source file for the class that represnets the renderer that can interface with different API 
 #include "SF_PCH.h"
 #include "Renderer.h"
+#include "Renderer2D.h"
 
 namespace SoulFire {
 
@@ -10,6 +11,12 @@ namespace SoulFire {
 	void Renderer::Init()
 	{
 		RenderCommand::Init();
+		Renderer2D::Init();
+	}
+
+	void Renderer::Shutdown()
+	{
+		Renderer2D::Shutdown();
 	}
 
 	void Renderer::BeginRenderPass(sptr<Camera>& cam)

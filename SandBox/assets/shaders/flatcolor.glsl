@@ -2,15 +2,12 @@
 #version 420
 			
 layout(location = 0) in vec3 inPosition;
-layout(location = 1) in vec2 inUv;
 layout(location = 0) out vec3 outPosition;
-layout(location = 1) out vec2 outUv;
 
 uniform mat4 u_ViewProjection;
 uniform mat4 u_Model;
 
 void main() {
-	outUv = inUv;
 	outPosition = inPosition;
 	gl_Position = u_ViewProjection * u_Model * vec4(inPosition, 1.0);
 }
@@ -19,13 +16,10 @@ void main() {
 #version 420
 			
 layout(location = 0) in vec3 inPosition;
-layout(location = 1) in vec2 inUv;
 layout(location = 0) out vec4 outColor;
 			
-layout(binding = 0) uniform sampler2D s_Texture;
-uniform vec4 u_color = vec4(1.0, 1.0, 1.0, 1.0);
-uniform float u_tilingFactor = 1.0;
+uniform vec4 u_color;
 
 void main() {
-	outColor = texture(s_Texture, inUv * u_tilingFactor) * u_color;
+	outColor = u_color;
 }

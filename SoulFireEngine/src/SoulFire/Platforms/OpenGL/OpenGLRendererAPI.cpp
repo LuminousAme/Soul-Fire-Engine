@@ -53,6 +53,30 @@ namespace SoulFire {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 
+	void OpenGLRendererAPI::SetClearColor(const glm::vec4& color)
+	{
+		m_clearColor = color;
+		glClearColor(m_clearColor.r, m_clearColor.g, m_clearColor.b, m_clearColor.a);
+	}
+
+	void OpenGLRendererAPI::Clear(RendererEnums::ClearFlags flags)
+	{
+		GLenum clearFlag = 0;
+		if (flags & RendererEnums::ClearColorBuffer) clearFlag |= GL_COLOR_BUFFER_BIT;
+		if (flags & RendererEnums::ClearDepthBuffer) clearFlag |= GL_DEPTH_BUFFER_BIT;
+		if (flags & RendererEnums::ClearAccumulationBuffer) clearFlag |= GL_ACCUM_BUFFER_BIT;
+		if (flags & RendererEnums::ClearStencilBuffer) clearFlag |= GL_STENCIL_BUFFER_BIT;
+		glClear(clearFlag);
+	}
+
+	void OpenGLRendererAPI::Clear(RendererEnums::ClearFlags flags, float depthClearValue)
+	{
+		depthClearValue = glm::clamp(depthClearValue, 0.0f, 1.0f);
+		glClearDepth(depthClearValue);
+
+		Clear(flags);
+	}
+
 	void OpenGLRendererAPI::Clear(RendererEnums::ClearFlags flags, const glm::vec4& color, float depthClearValue)
 	{
 		if (color != m_clearColor) {
@@ -60,15 +84,7 @@ namespace SoulFire {
 			glClearColor(m_clearColor.r, m_clearColor.g, m_clearColor.b, m_clearColor.a);
 		}
 
-		depthClearValue = glm::clamp(depthClearValue, 0.0f, 1.0f);
-		glClearDepth(depthClearValue);
-
-		GLenum clearFlag = 0;
-		if (flags & RendererEnums::ClearColorBuffer) clearFlag |= GL_COLOR_BUFFER_BIT;
-		if (flags & RendererEnums::ClearDepthBuffer) clearFlag |= GL_DEPTH_BUFFER_BIT;
-		if (flags & RendererEnums::ClearAccumulationBuffer) clearFlag |= GL_ACCUM_BUFFER_BIT;
-		if (flags & RendererEnums::ClearStencilBuffer) clearFlag |= GL_STENCIL_BUFFER_BIT;
-		glClear(clearFlag);
+		Clear(flags, depthClearValue);
 	}
 
 	void OpenGLRendererAPI::Draw(const sptr<VertexArrayObject>& VAO)
@@ -89,7 +105,7 @@ namespace SoulFire {
 		else glDisable(GL_DEPTH_TEST);
 	}
 
-	void OpenGLRendererAPI::SetDepthFunction(RendererEnums::DepthFunctions depthfunc)
+	void OpenGLRendererAPI::SetDepthFunc(RendererEnums::DepthFunctions depthfunc)
 	{
 		GLenum depthFunc = 0;
 

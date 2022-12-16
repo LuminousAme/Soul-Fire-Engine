@@ -121,11 +121,14 @@ namespace SoulFire {
 			break;
 		}
 
+		m_internalFormat = internal_format;
+		m_imageFormat = image_format;
+
 		m_width = width;
 		m_height = height;
 
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_handle);
-		glTextureStorage2D(m_handle, 1, internal_format, m_width, m_height);
+		glTextureStorage2D(m_handle, 1, m_internalFormat, m_width, m_height);
 
 		glTextureParameteri(m_handle, GL_TEXTURE_MIN_FILTER, ConvertMinFilter(m_minFilter));
 		glTextureParameteri(m_handle, GL_TEXTURE_MAG_FILTER, ConvertMagFilter(m_magFilter));
@@ -133,7 +136,7 @@ namespace SoulFire {
 		glTextureParameteri(m_handle, GL_TEXTURE_WRAP_S, ConvertWrapMode(m_horiWrapMode));
 		glTextureParameteri(m_handle, GL_TEXTURE_WRAP_T, ConvertWrapMode(m_vertWrapMode));
 
-		glTextureSubImage2D(m_handle, 0, 0, 0, m_width, m_height, image_format, GL_UNSIGNED_BYTE, data);
+		glTextureSubImage2D(m_handle, 0, 0, 0, m_width, m_height, m_imageFormat, GL_UNSIGNED_BYTE, data);
 
 		m_minimaps = generateMipmaps;
 		if (m_minimaps) {
@@ -143,9 +146,27 @@ namespace SoulFire {
 		stbi_image_free(data);
 	}
 
+	OpenGLTexture2D::OpenGLTexture2D(const int& width, const int& height)
+		: m_width(width), m_height(height), m_internalFormat(GL_RGBA8), m_imageFormat(GL_RGBA)
+	{
+		glCreateTextures(GL_TEXTURE_2D, 1, &m_handle);
+		glTextureStorage2D(m_handle, 1, m_internalFormat, m_width, m_height);
+
+		glTextureParameteri(m_handle, GL_TEXTURE_MIN_FILTER, ConvertMinFilter(m_minFilter));
+		glTextureParameteri(m_handle, GL_TEXTURE_MAG_FILTER, ConvertMagFilter(m_magFilter));
+
+		glTextureParameteri(m_handle, GL_TEXTURE_WRAP_S, ConvertWrapMode(m_horiWrapMode));
+		glTextureParameteri(m_handle, GL_TEXTURE_WRAP_T, ConvertWrapMode(m_vertWrapMode));
+	}
+
 	OpenGLTexture2D::~OpenGLTexture2D()
 	{
 		glDeleteTextures(1, &m_handle);
+	}
+
+	void OpenGLTexture2D::SetData(void* data, uint32_t size)
+	{
+		glTextureSubImage2D(m_handle, 0, 0, 0, m_width, m_height, m_imageFormat, GL_UNSIGNED_BYTE, data);
 	}
 
 	void OpenGLTexture2D::Bind(uint32_t slot) const

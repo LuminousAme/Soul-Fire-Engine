@@ -9,14 +9,18 @@ namespace SoulFire {
 		OpenGLRendererAPI();
 
 		void Init() override;
+		
+		void SetClearColor(const glm::vec4& color) override;
 
+		void Clear(RendererEnums::ClearFlags flags) override;
+		void Clear(RendererEnums::ClearFlags flags, float depthClearValue) override;
 		void Clear(RendererEnums::ClearFlags flags, const glm::vec4& color, float depthClearValue) override;
 
 		void Draw(const sptr<VertexArrayObject>& VAO) override;
 
 		void UseDepthTest(bool useDepth) override;
 
-		void SetDepthFunction(RendererEnums::DepthFunctions depthfunc) override;
+		void SetDepthFunc(RendererEnums::DepthFunctions depthfunc) override;
 
 		void UseCulling(bool useCulling) override;
 
