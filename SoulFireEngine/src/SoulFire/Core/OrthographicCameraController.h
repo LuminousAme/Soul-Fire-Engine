@@ -17,6 +17,8 @@ namespace SoulFire {
 		void Update();
 		void OnEvent(Event& ev);
 
+		void Resize(float width, float height);
+
 		sptr<Camera> GetCamera() const { return m_camera; }
 
 		void SetZoomLevel(const float& level) { m_zoomlevel = level; UpdateCamera(); }

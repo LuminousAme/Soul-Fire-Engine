@@ -19,6 +19,7 @@
 
 #include "SoulFire/Renderer/Buffer.h"
 #include "SoulFire/Renderer/Shader.h"
+#include "SoulFire/Renderer/Framebuffer.h"
 #include "SoulFire/Renderer/Texture.h"
 #include "SoulFire/Renderer/VertexArrayObject.h"
 

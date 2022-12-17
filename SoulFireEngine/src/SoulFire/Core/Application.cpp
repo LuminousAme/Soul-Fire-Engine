@@ -97,15 +97,20 @@ namespace SoulFire {
 		}
 	}
 
-
-	//when the window close event is dispatched
-	bool Application::OnWindowClose(WindowCloseEvent& ev)
+	void Application::Close()
 	{
 		//set the application running to false
 		m_running = false;
 
 		//shutdown the renderer 
 		Renderer::Shutdown();
+	}
+
+
+	//when the window close event is dispatched
+	bool Application::OnWindowClose(WindowCloseEvent& ev)
+	{
+		Close();
 
 		//and the event handled is true
 		return true;

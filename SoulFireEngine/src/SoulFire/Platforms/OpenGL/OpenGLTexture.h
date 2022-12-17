@@ -14,6 +14,7 @@ namespace SoulFire {
 
 		uint32_t GetWidth() const override { return m_width; };
 		uint32_t GetHeight() const override { return m_height; };
+		uint32_t GetHandle() const override { return m_handle; }
 
 		void SetData(void* data, uint32_t size) override;
 

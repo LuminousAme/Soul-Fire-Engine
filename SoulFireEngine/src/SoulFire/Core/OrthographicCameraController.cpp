@@ -54,6 +54,12 @@ namespace SoulFire {
 		dispatcher.Dispatch<WindowResizeEvent>(SF_BIND_EVENT_FN(OrthograhpicCameraController::OnWindowResized));
 	}
 
+	void OrthograhpicCameraController::Resize(float width, float height)
+	{
+		m_aspectratio = width / height;
+		UpdateCamera();
+	}
+
 	bool OrthograhpicCameraController::OnMouseScrolled(MouseScrolledEvent& ev)
 	{
 		m_zoomlevel -= ev.GetOffsetY() * m_zoomspeed;
@@ -64,8 +70,7 @@ namespace SoulFire {
 
 	bool OrthograhpicCameraController::OnWindowResized(WindowResizeEvent& ev)
 	{
-		m_aspectratio = (float)ev.GetWidth() / (float)ev.GetHeight();
-		UpdateCamera();
+		Resize((float)ev.GetWidth(), (float)ev.GetHeight());
 		return false;
 	}
 

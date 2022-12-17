@@ -13,6 +13,8 @@ public:
 	void Update() override;
 	void OnEvent(SoulFire::Event& ev) override;
 	void ImGuiRender() override;
+
+	void DockSpace(bool* p_open, bool fullscreen = true, bool padding = false);
 private:
 	//TEMP
 	SoulFire::sptr<SoulFire::Shader> m_testShader = nullptr;
@@ -27,4 +29,9 @@ private:
 	SoulFire::TextureProps m_testTextureProps;
 
 	float rot = 0;
+
+	bool dockspaceopen = true;
+
+	SoulFire::sptr<SoulFire::Framebuffer> m_framebuffer;
+	glm::vec2 m_viewportSize = glm::vec2(1280.0f, 720.0f);
 };

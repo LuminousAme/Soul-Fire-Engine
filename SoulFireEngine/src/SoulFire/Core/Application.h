@@ -32,6 +32,8 @@ namespace SoulFire {
 
 		void Run();
 
+		void Close();
+
 		void OnEvent(Event& ev);
 
 		void PushLayer(Layer* layer);
