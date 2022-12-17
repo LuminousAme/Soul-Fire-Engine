@@ -5,7 +5,7 @@
 #include "RenderCommand.h"
 #include "Camera.h"
 #include "Shader.h"
-#include "SoulFire/Compontents/Transform.h"
+#include "SoulFire/Scene/Components.h"
 
 namespace SoulFire {
 

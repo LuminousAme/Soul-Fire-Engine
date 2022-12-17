@@ -1,6 +1,8 @@
 #pragma once
 #include <SoulFire.h>
 #include <Imgui/imgui.h>
+#include "Panels/SceneHierarchyPanel.h"
+#include "Panels/InspectorPanel.h"
 
 namespace SoulFire {
 
@@ -19,10 +21,6 @@ namespace SoulFire {
 		void DockSpace(bool* p_open, bool fullscreen = true, bool padding = false);
 	private:
 		//TEMP
-		sptr<Shader> m_testShader = nullptr;
-		sptr<VertexArrayObject> m_testVAO = nullptr;
-		Transform m_testTrans;
-
 		glm::vec4 m_testColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
 		OrthograhpicCameraController m_testCameraController;
@@ -32,11 +30,17 @@ namespace SoulFire {
 
 		float rot = 0;
 
+	private: 
+		sptr<Scene> m_activeScene;
+		Entity m_NecoArcEntity;
 	private:
 		bool m_dockspaceopen = true;
 		bool m_viewportFocused = false;
 		bool m_viewportHovered = false;
 		sptr<Framebuffer> m_framebuffer;
 		glm::vec2 m_viewportSize = glm::vec2(1280.0f, 720.0f);
+
+		SceneHierarchyPanel m_hierarchyPanel;
+		InspectorPanel m_inspectorPanel;
 	};
 }

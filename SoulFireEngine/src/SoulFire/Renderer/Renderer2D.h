@@ -10,6 +10,11 @@ namespace SoulFire {
 	struct TextureProps {
 		glm::vec4 tint = glm::vec4(1.0f);
 		float tilingFactor = 1.0f;
+
+		TextureProps() = default;
+		TextureProps(const TextureProps& other) = default;
+		TextureProps(const glm::vec4& _tint, const float& _tilingFactor)
+			: tint(_tint), tilingFactor(_tilingFactor) {}
 	};
 
 	class Renderer2D {
@@ -26,6 +31,10 @@ namespace SoulFire {
 		static void DrawQuad(const glm::vec3& pos, const glm::vec2& size, const sptr<Texture2D>& texture, const TextureProps& props = TextureProps());
 		static void DrawQuad(const glm::vec2& pos, const glm::vec2& size, const sptr<SubTexture2D>& subtexture, const TextureProps& props = TextureProps());
 		static void DrawQuad(const glm::vec3& pos, const glm::vec2& size, const sptr<SubTexture2D>& subtexture, const TextureProps& props = TextureProps());
+
+		static void DrawQuad(const glm::mat4& trans, const glm::vec4& color);
+		static void DrawQuad(const glm::mat4& trans, const sptr<Texture2D>& texture, const TextureProps& props = TextureProps());
+		static void DrawQuad(const glm::mat4& trans, const sptr<SubTexture2D>& subtexture, const TextureProps& props = TextureProps());
 
 		static void DrawRotatedQuad(const glm::vec2& pos, const glm::vec2& size, const float& rotDegrees, const glm::vec4& color);
 		static void DrawRotatedQuad(const glm::vec3& pos, const glm::vec2& size, const float& rotDegrees, const glm::vec4& color);

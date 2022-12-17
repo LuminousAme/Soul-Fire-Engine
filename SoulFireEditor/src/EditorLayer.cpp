@@ -3,13 +3,14 @@
 namespace SoulFire {
 
 	EditorLayer::EditorLayer()
-		: Layer("EditorLayer"), m_testCameraController(SoulFire::Application::GetApp().GetWindow().GetAspectRatio()),
-		m_testTrans(SoulFire::Transform())
+		: Layer("EditorLayer"), m_testCameraController(SoulFire::Application::GetApp().GetWindow().GetAspectRatio())
 	{
 	}
 
 	void EditorLayer::Attach()
 	{
+		m_activeScene = Scene::Create();
+
 		m_testTexture = SoulFire::Texture2D::Create("assets/textures/necoarctransparent.png");
 		bool active = true;
 
@@ -17,6 +18,14 @@ namespace SoulFire {
 		spec.Width = SoulFire::Application::GetApp().GetWindow().GetWidth();
 		spec.Height = SoulFire::Application::GetApp().GetWindow().GetWidth();
 		m_framebuffer = SoulFire::Framebuffer::Create(spec);
+
+		m_NecoArcEntity = m_activeScene->CreateEntity("Neco Arc");
+		m_NecoArcEntity.AddComponent<SpriteRenderer>(m_testTexture);
+
+		Entity NecoArcEntity2 = m_activeScene->CreateEntity("Neco Arc 2!!!");
+		NecoArcEntity2.AddComponent<SpriteRenderer>(m_testTexture);
+
+		m_hierarchyPanel.SetContext(m_activeScene);
 	}
 
 	void EditorLayer::Detach()
@@ -41,16 +50,9 @@ namespace SoulFire {
 
 		SoulFire::Renderer2D::BeginRenderPass(m_testCameraController.GetCamera());
 
-		SoulFire::Renderer2D::DrawRotatedQuad(glm::vec2(-1.0f, 0.0f), glm::vec2(0.8f), rot, m_testTexture);
-		SoulFire::Renderer2D::DrawQuad(glm::vec2(0.0f, 0.0f), glm::vec2(0.5f, 0.75f), m_testColor);
-		SoulFire::Renderer2D::DrawQuad(glm::vec2(-1.0f, -2.0f), glm::vec2(0.8f), m_testTexture);
+		m_activeScene->Update();
 
-		for (float y = -5.0f; y < 5.0f; y += 0.05f) {
-			for (float x = -5.0f; x < 5.0f; x += 0.05f) {
-				glm::vec4 color = glm::vec4((x + 5.0f) / 10.0f, 0.0f, (y + 5.0f) / 10.0f, 0.7f);
-				SoulFire::Renderer2D::DrawQuad(glm::vec2(x, y), glm::vec2(0.045f, 0.045f), color);
-			}
-		}
+		//SoulFire::Renderer2D::DrawRotatedQuad(glm::vec2(-1.0f, 0.0f), glm::vec2(0.8f), rot, m_testTexture);
 
 		SoulFire::Renderer2D::EndRenderPass();
 		m_framebuffer->UnBind();
@@ -128,16 +130,11 @@ namespace SoulFire {
 			ImGui::EndMenuBar();
 		}
 
-		ImGui::Begin("Sandbox2D Test Layer Box");
-		std::stringstream fps;
-		fps << "fps: " << 1.0f / SoulFire::Time::GetDeltaTime();
-		ImGui::Text(fps.str().c_str());
-		ImGui::ColorEdit4("Test Colour", glm::value_ptr(m_testColor));
-		ImGui::End();
+		m_hierarchyPanel.OnImguiRender();
+		m_inspectorPanel.OnImGuiRender(m_hierarchyPanel);
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0.0f, 0.0f });
 		ImGui::Begin("Viewport");
-
 		m_viewportFocused = ImGui::IsWindowFocused();
 		m_viewportHovered = ImGui::IsWindowHovered();
 		Application::GetApp().GetImGuiLayer()->BlockEvents(!m_viewportFocused || !m_viewportHovered);

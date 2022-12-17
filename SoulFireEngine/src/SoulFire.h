@@ -13,6 +13,10 @@
 
 #include "SoulFire/ImGui/ImGuiLayer.h"
 
+#include "SoulFire/Scene/Scene.h"
+#include "SoulFire/Scene/Entity.h"
+#include "SoulFire/Scene/Components.h"
+
 #include "SoulFire/Renderer/Renderer.h"
 #include "SoulFire/Renderer/Renderer2D.h"
 #include "SoulFire/Renderer/RenderCommand.h"

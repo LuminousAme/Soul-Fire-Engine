@@ -330,21 +330,12 @@ namespace SoulFire {
 		s_Data2D.quadIndexCount += 6;
 	}
 
-	void Renderer2D::DrawRotatedQuad(const glm::vec2& pos, const glm::vec2& size, const float& rotDegrees, const glm::vec4& color)
-	{
-		DrawRotatedQuad(glm::vec3(pos.x, pos.y, 0.0f), size, rotDegrees, color);
-	}
-
-	void Renderer2D::DrawRotatedQuad(const glm::vec3& pos, const glm::vec2& size, const float& rotDegrees, const glm::vec4& color)
+	void Renderer2D::DrawQuad(const glm::mat4& trans, const glm::vec4& color)
 	{
 		CheckShouldFlush();
 
 		const float texIndex = 0.0f; //all white texture
 		const float tilingFactor = 1.0f;
-
-		glm::mat4 trans = glm::translate(pos) *
-			glm::toMat4(glm::quat(glm::radians(glm::vec3(0.0f, 0.0f, rotDegrees)))) *
-			glm::scale(glm::vec3(size.x, size.y, 1.0f));
 
 		//bottom left
 		s_Data2D.quadVertexPtr->Position = glm::vec3(trans * s_Data2D.rotatedQuadVertexPositions[0]);
@@ -382,12 +373,7 @@ namespace SoulFire {
 		s_Data2D.quadIndexCount += 6;
 	}
 
-	void Renderer2D::DrawRotatedQuad(const glm::vec2& pos, const glm::vec2& size, const float& rotDegrees, const sptr<Texture2D>& texture, const TextureProps& props)
-	{
-		DrawRotatedQuad(glm::vec3(pos.x, pos.y, 0.0f), size, rotDegrees, texture, props);
-	}
-
-	void Renderer2D::DrawRotatedQuad(const glm::vec3& pos, const glm::vec2& size, const float& rotDegrees, const sptr<Texture2D>& texture, const TextureProps& props)
+	void Renderer2D::DrawQuad(const glm::mat4& trans, const sptr<Texture2D>& texture, const TextureProps& props)
 	{
 		CheckShouldFlush();
 
@@ -408,10 +394,6 @@ namespace SoulFire {
 			s_Data2D.textureSlotIndex++;
 		}
 
-		glm::mat4 trans = glm::translate(pos) *
-			glm::toMat4(glm::quat(glm::radians(glm::vec3(0.0f, 0.0f, rotDegrees)))) *
-			glm::scale(glm::vec3(size.x, size.y, 1.0f));
-
 		//bottom left
 		s_Data2D.quadVertexPtr->Position = glm::vec3(trans * s_Data2D.rotatedQuadVertexPositions[0]);
 		s_Data2D.quadVertexPtr->Color = props.tint;
@@ -448,12 +430,7 @@ namespace SoulFire {
 		s_Data2D.quadIndexCount += 6;
 	}
 
-	void Renderer2D::DrawRotatedQuad(const glm::vec2& pos, const glm::vec2& size, const float& rotDegrees, const sptr<SubTexture2D>& subtexture, const TextureProps& props)
-	{
-		DrawRotatedQuad(glm::vec3(pos.x, pos.y, 0.0f), size, rotDegrees, subtexture, props);
-	}
-
-	void Renderer2D::DrawRotatedQuad(const glm::vec3& pos, const glm::vec2& size, const float& rotDegrees, const sptr<SubTexture2D>& subtexture, const TextureProps& props)
+	void Renderer2D::DrawQuad(const glm::mat4& trans, const sptr<SubTexture2D>& subtexture, const TextureProps& props)
 	{
 		CheckShouldFlush();
 
@@ -473,10 +450,6 @@ namespace SoulFire {
 			s_Data2D.textureSlots[s_Data2D.textureSlotIndex] = subtexture->GetTexture();
 			s_Data2D.textureSlotIndex++;
 		}
-
-		glm::mat4 trans = glm::translate(pos) *
-			glm::toMat4(glm::quat(glm::radians(glm::vec3(0.0f, 0.0f, rotDegrees)))) *
-			glm::scale(glm::vec3(size.x, size.y, 1.0f));
 
 		//bottom left
 		s_Data2D.quadVertexPtr->Position = glm::vec3(trans * s_Data2D.rotatedQuadVertexPositions[0]);
@@ -512,5 +485,47 @@ namespace SoulFire {
 
 		//increase the quad index count
 		s_Data2D.quadIndexCount += 6;
+	}
+
+	void Renderer2D::DrawRotatedQuad(const glm::vec2& pos, const glm::vec2& size, const float& rotDegrees, const glm::vec4& color)
+	{
+		DrawRotatedQuad(glm::vec3(pos.x, pos.y, 0.0f), size, rotDegrees, color);
+	}
+
+	void Renderer2D::DrawRotatedQuad(const glm::vec3& pos, const glm::vec2& size, const float& rotDegrees, const glm::vec4& color)
+	{
+		glm::mat4 trans = glm::translate(pos) *
+			glm::toMat4(glm::quat(glm::radians(glm::vec3(0.0f, 0.0f, rotDegrees)))) *
+			glm::scale(glm::vec3(size.x, size.y, 1.0f));
+
+		DrawQuad(trans, color);
+	}
+
+	void Renderer2D::DrawRotatedQuad(const glm::vec2& pos, const glm::vec2& size, const float& rotDegrees, const sptr<Texture2D>& texture, const TextureProps& props)
+	{
+		DrawRotatedQuad(glm::vec3(pos.x, pos.y, 0.0f), size, rotDegrees, texture, props);
+	}
+
+	void Renderer2D::DrawRotatedQuad(const glm::vec3& pos, const glm::vec2& size, const float& rotDegrees, const sptr<Texture2D>& texture, const TextureProps& props)
+	{
+		glm::mat4 trans = glm::translate(pos) *
+			glm::toMat4(glm::quat(glm::radians(glm::vec3(0.0f, 0.0f, rotDegrees)))) *
+			glm::scale(glm::vec3(size.x, size.y, 1.0f));
+
+		DrawQuad(trans, texture, props);
+	}
+
+	void Renderer2D::DrawRotatedQuad(const glm::vec2& pos, const glm::vec2& size, const float& rotDegrees, const sptr<SubTexture2D>& subtexture, const TextureProps& props)
+	{
+		DrawRotatedQuad(glm::vec3(pos.x, pos.y, 0.0f), size, rotDegrees, subtexture, props);
+	}
+
+	void Renderer2D::DrawRotatedQuad(const glm::vec3& pos, const glm::vec2& size, const float& rotDegrees, const sptr<SubTexture2D>& subtexture, const TextureProps& props)
+	{
+		glm::mat4 trans = glm::translate(pos) *
+			glm::toMat4(glm::quat(glm::radians(glm::vec3(0.0f, 0.0f, rotDegrees)))) *
+			glm::scale(glm::vec3(size.x, size.y, 1.0f));
+
+		DrawQuad(trans, subtexture, props);
 	}
 }

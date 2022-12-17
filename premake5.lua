@@ -23,6 +23,7 @@ IncludeDirTable["GLAD"] = "SoulFireEngine/dependencies/Glad/include"
 IncludeDirTable["GLM"] = "SoulFireEngine/dependencies/glm/include"
 IncludeDirTable["ImGui"] = "SoulFireEngine/dependencies/Imgui"
 IncludeDirTable["stb_image"] = "SoulFireEngine/dependencies/stb_image"
+IncludeDirTable["ENTT"] = "SoulFireEngine/dependencies/ENTT/include"
 
 -- include the glfw premake
 group "Dependencies"
@@ -66,7 +67,8 @@ project "SoulFireEngine"
 		"%{IncludeDirTable.GLAD}",
 		"%{IncludeDirTable.GLM}",
 		"%{IncludeDirTable.ImGui}",
-		"%{IncludeDirTable.stb_image}"
+		"%{IncludeDirTable.stb_image}",
+		"%{IncludeDirTable.ENTT}"
 	}
 
 	links {
@@ -122,7 +124,8 @@ project "SoulFireEditor"
 		"SoulFireEngine/dependencies/spdlog/include",
 		"SoulFireEngine/src",
 		"SoulFireEngine/dependencies",
-		"%{IncludeDirTable.GLM}"
+		"%{IncludeDirTable.GLM}",
+		"%{IncludeDirTable.ENTT}"
 	}
 
 	links
@@ -174,7 +177,8 @@ project "Sandbox"
 		"SoulFireEngine/dependencies/spdlog/include",
 		"SoulFireEngine/src",
 		"SoulFireEngine/dependencies",
-		"%{IncludeDirTable.GLM}"
+		"%{IncludeDirTable.GLM}",
+		"%{IncludeDirTable.ENTT}"
 	}
 
 	links
