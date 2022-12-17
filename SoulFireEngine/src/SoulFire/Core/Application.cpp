@@ -18,13 +18,13 @@ namespace SoulFire {
 
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application()
+	Application::Application(const std::string& name)
 	{
 		//save the singleton
 		s_Instance = this;
 
 		//create a new window
-		m_window = std::unique_ptr<Window>(Window::CreateNewWindow());
+		m_window = std::unique_ptr<Window>(Window::CreateNewWindow(WindowDetails(name)));
 		//sets the callback so that when the window sends an event, the OnEvent function is called
 		m_window->SetEventCallback(SF_BIND_EVENT_FN(Application::OnEvent));
 

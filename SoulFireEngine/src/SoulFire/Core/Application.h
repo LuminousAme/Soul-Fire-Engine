@@ -27,7 +27,7 @@ namespace SoulFire {
 	class SF_API Application
 	{
 	public:
-		Application();
+		Application(const std::string& name = "Soul Fire Engine");
 		virtual ~Application();
 
 		void Run();

@@ -19,9 +19,9 @@ namespace SoulFire {
 		void Update() override;
 
 		//getters for window width and height
-		inline unsigned int GetWidth() const override { return m_data.m_width; }
-		inline unsigned int GetHeight() const override { return m_data.m_height; }
-		virtual std::pair<unsigned int, unsigned int> GetWindowSize() const override { return std::pair(m_data.m_width, m_data.m_height); }
+		inline uint32_t GetWidth() const override { return m_data.m_width; }
+		inline uint32_t GetHeight() const override { return m_data.m_height; }
+		virtual std::pair<uint32_t, uint32_t> GetWindowSize() const override { return std::pair(m_data.m_width, m_data.m_height); }
 		inline float GetAspectRatio() const override { return (float)m_data.m_width / (float)m_data.m_height; }
 
 		//sets the event callback function
@@ -51,7 +51,7 @@ namespace SoulFire {
 		//struct with window data that can be passed to glfw as custom user data without needing to send the entire window class
 		struct WindowData {
 			std::string m_title;
-			unsigned int m_width, m_height;
+			uint32_t m_width, m_height;
 
 			bool vysnc;
 

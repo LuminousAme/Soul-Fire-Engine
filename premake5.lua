@@ -101,7 +101,57 @@ project "SoulFireEngine"
 		runtime "Release"
 		optimize "On"
 
+project "SoulFireEditor"
+	location "SoulFireEditor"
+	kind "ConsoleApp"
+	language "C++"
+	cppdialect "C++17"
+	staticruntime "On"
 
+	targetdir ("bin/" .. outputdir.. "/%{prj.name}")
+	objdir ("obj/" .. outputdir.. "/%{prj.name}")
+
+	files
+	{
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp"
+	}
+
+	includedirs 
+	{
+		"SoulFireEngine/dependencies/spdlog/include",
+		"SoulFireEngine/src",
+		"SoulFireEngine/dependencies",
+		"%{IncludeDirTable.GLM}"
+	}
+
+	links
+	{
+		"SoulFireEngine"
+	}
+
+	filter "system:windows"
+		systemversion "latest"
+
+		defines 
+		{
+			"SF_PLATFORM_WINDOWS"
+		}
+
+	filter "configurations:Debug"
+		defines "SF_DEBUG"
+		runtime "Debug"
+		symbols "On"
+
+	filter "configurations:Release"
+		defines "SF_RELEASE"
+		runtime "Release"
+		optimize "On"
+
+	filter "configurations:Distribution"
+		defines "SF_DISTRIBUTION"
+		runtime "Release"
+		optimize "On"
 
 project "Sandbox"
 	location "Sandbox"

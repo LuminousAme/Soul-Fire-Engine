@@ -1,24 +1,22 @@
 //Soul Fire Engine by Ame Gilham, inspired by the Cherno's Hazel
-//WindowsInput.cpp - source for the input handler implementation for microsoft windows
+//Input.cpp - source for the input handler implementation for microsoft windows
 
 #include "SF_PCH.h"
-#include "WindowsInput.h"
+#include "SoulFire/Core/Input.h"
 #include "SoulFire/Core/Application.h"
 
 #include "SoulFire/Core/InputCodes.h"
 #include "GLFW/glfw3.h"
 
 namespace SoulFire {
-	Input* Input::s_Instance = new WindowsInput();
+	std::unordered_map<int, bool> KeyWasPressedMap;
+	std::unordered_map<int, bool> KeyPressed;
+	std::unordered_map<int, bool> KeyHandled;
+	std::unordered_map<int, bool> MouseWasPressedMap;
+	std::unordered_map<int, bool> MousePressed;
+	std::unordered_map<int, bool> MouseHandled;
 
-	std::unordered_map<int, bool> WindowsInput::KeyWasPressedMap;
-	std::unordered_map<int, bool> WindowsInput::KeyPressed;
-	std::unordered_map<int, bool> WindowsInput::KeyHandled;
-	std::unordered_map<int, bool> WindowsInput::MouseWasPressedMap;
-	std::unordered_map<int, bool> WindowsInput::MousePressed;
-	std::unordered_map<int, bool> WindowsInput::MouseHandled;
-
-	bool WindowsInput::GetKeyImplementation(int keycode)
+	bool Input::GetKey(int keycode)
 	{
 		//check if the keyinputted currently exists in the map
 		if (KeyWasPressedMap.find(keycode) == KeyWasPressedMap.end())
@@ -46,13 +44,13 @@ namespace SoulFire {
 		return false;
 	}
 
-	bool WindowsInput::GetKeyDownImplementation(int keycode)
+	bool Input::GetKeyDown(int keycode)
 	{
 		//check first if the key exists in the map
 		if (KeyWasPressedMap.find(keycode) == KeyWasPressedMap.end())
 		{
 			//if it doesn't, pass it onto the getKey so it can create a place in the map, and check if it is being pressed
-			if (GetKeyImplementation(keycode))
+			if (GetKey(keycode))
 			{
 				//if it sets the flag and return true that means the key has been pressed this frame
 				KeyHandled.at(keycode) = true;
@@ -65,7 +63,7 @@ namespace SoulFire {
 			return true;
 		}
 		//if it does exist in the map and was not handled yet this frame, check if the value in the map is false and if the key is being pressed
-		else if (GetKeyImplementation(keycode) && !KeyPressed.at(keycode)) {
+		else if (GetKey(keycode) && !KeyPressed.at(keycode)) {
 			//if it is, then this is the first frame where it's being pressed so set the flags and return true
 			KeyHandled.at(keycode) = true;
 			KeyPressed.at(keycode) = true;
@@ -73,7 +71,7 @@ namespace SoulFire {
 			return true;
 		}
 		//if it's not being pressed make sure the flag reflects that
-		else if (!GetKeyImplementation(keycode)) {
+		else if (!GetKey(keycode)) {
 			KeyPressed.at(keycode) = false;
 		}
 
@@ -81,10 +79,10 @@ namespace SoulFire {
 		return false;
 	}
 
-	bool WindowsInput::GetKeyUpImplementation(int keycode)
+	bool Input::GetKeyUp(int keycode)
 	{
 		//check if the key is currently down, if it isn't, and it was marked as being down, that means it's been release this frame
-		if (!GetKeyImplementation(keycode) && KeyWasPressedMap.at(keycode))
+		if (!GetKey(keycode) && KeyWasPressedMap.at(keycode))
 		{
 			//return true to say it's been released
 			return true;
@@ -93,7 +91,7 @@ namespace SoulFire {
 		return false;
 	}
 
-	std::pair<float, float> WindowsInput::GetMousePositionImplementation()
+	std::pair<float, float> Input::GetMousePosition()
 	{
 		//grab the window pointer
 		auto window = static_cast<GLFWwindow*>(Application::GetApp().GetWindow().GetNativeWindowPointer());
@@ -105,7 +103,7 @@ namespace SoulFire {
 		return std::pair<float, float>((float)tempX, (float)tempY);
 	}
 
-	bool WindowsInput::GetMouseButtonImplementation(int button)
+	bool Input::GetMouseButton(int button)
 	{
 		//check if the button inputted currently exists in the map
 		if (MouseWasPressedMap.find(button) == MouseWasPressedMap.end())
@@ -131,13 +129,13 @@ namespace SoulFire {
 		return false;
 	}
 
-	bool WindowsInput::GetMouseButtonDownImplementation(int button)
+	bool Input::GetMouseButtonDown(int button)
 	{
 		//check first if the button exists in the map
 		if (MouseWasPressedMap.find(button) == MouseWasPressedMap.end())
 		{
 			//if it doesn't, pass it onto the getMouseButton so it can create a place in the map, and check if it is being pressed
-			if (GetMouseButtonImplementation(button))
+			if (GetMouseButton(button))
 			{
 				//if it sets the flag and return true that means the key has been pressed this frame
 				MouseHandled.at(button) = true;
@@ -151,7 +149,7 @@ namespace SoulFire {
 			return true;
 		}
 		//if it does exist in the map and was not yet handleded in this frame, check if the value in the map is false and if the button is being pressed
-		else if (GetMouseButtonImplementation(button) && !MousePressed.at(button)) {
+		else if (GetMouseButton(button) && !MousePressed.at(button)) {
 			//if it is, then this is the first frame where it's being pressed so set the flags and return true
 			MouseHandled.at(button) = true;
 			MousePressed.at(button) = true;
@@ -159,7 +157,7 @@ namespace SoulFire {
 			return true;
 		}
 		//if it's not being pressed make sure the flag reflects that
-		else if (!GetMouseButtonImplementation(button)) {
+		else if (!GetMouseButton(button)) {
 			MousePressed.at(button) = false;
 		}
 
@@ -167,10 +165,10 @@ namespace SoulFire {
 		return false;
 	}
 
-	bool WindowsInput::GetmouseButtonUpImplmentation(int button)
+	bool Input::GetMouseButtonUp(int button)
 	{
 		//check if the button is currently down, if it isn't, and it was marked as being down, that means it's been release this frame
-		if (!GetMouseButtonImplementation(button) && MouseWasPressedMap.at(button))
+		if (!GetMouseButton(button) && MouseWasPressedMap.at(button))
 		{
 			//return true to say it's been released
 			return true;
@@ -179,7 +177,7 @@ namespace SoulFire {
 		return false;
 	}
 
-	void WindowsInput::ResetInputImplementation()
+	void Input::ResetInput()
 	{
 		//grab the window pointer
 		auto window = static_cast<GLFWwindow*>(Application::GetApp().GetWindow().GetNativeWindowPointer());

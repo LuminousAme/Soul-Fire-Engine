@@ -14,6 +14,7 @@ namespace SoulFire {
 
 	class Framebuffer {
 	public:
+		virtual ~Framebuffer() = default;
 		virtual const FramebufferSpecification& GetSpecification() const = 0;
 
 		static sptr<Framebuffer> Create(const FramebufferSpecification& spec, bool withDepth = true, uint32_t colorBuffers = 1, uint32_t format = 0x8058);

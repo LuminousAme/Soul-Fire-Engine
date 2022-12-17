@@ -13,10 +13,10 @@ namespace SoulFire {
 		//name/title that is displayed at the top of the window
 		std::string m_Name;
 		//size of the window
-		unsigned int m_Width, m_Height;
+		uint32_t m_Width, m_Height;
 
 		//constructor
-		WindowDetails(const std::string& name = "Soul Fire Engine", unsigned int width = 1280, unsigned int height = 720) 
+		WindowDetails(const std::string& name = "Soul Fire Engine", uint32_t width = 1280, uint32_t height = 720)
 			: m_Name(name), m_Width(width), m_Height(height)
 		{}
 	};
@@ -33,9 +33,9 @@ namespace SoulFire {
 		virtual void Update() = 0;
 
 		//size getters
-		virtual unsigned int GetWidth() const = 0;
-		virtual unsigned int GetHeight() const = 0;
-		virtual std::pair<unsigned int, unsigned int> GetWindowSize() const = 0;
+		virtual uint32_t GetWidth() const = 0;
+		virtual uint32_t GetHeight() const = 0;
+		virtual std::pair<uint32_t, uint32_t> GetWindowSize() const = 0;
 		virtual float GetAspectRatio() const = 0;
 
 		//setup event callbacks
