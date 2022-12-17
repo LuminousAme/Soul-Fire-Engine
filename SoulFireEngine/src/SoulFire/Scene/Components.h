@@ -18,15 +18,23 @@ namespace SoulFire {
 	};
 
 	struct Transform {
-		glm::mat4 m_transform {1.0f};
+		glm::vec3 Position = glm::vec3(0.0f, 0.0f, 0.0f);
+		glm::vec3 Rotation = glm::vec3(0.0f, 0.0f, 0.0f);
+		glm::vec3 Scale = glm::vec3(1.0f, 1.0f, 1.0f);
 
 		Transform() = default;
 		Transform(const Transform&) = default;
-		Transform(const glm::mat4& transform)
-			: m_transform(transform) {}
+		Transform(const glm::vec3& pos)
+			: Position(pos) {}
 
-		operator glm::mat4&() { return m_transform; }
-		operator const glm::mat4& () { return m_transform; }
+		operator glm::mat4&() { return GetTransform(); }
+		operator const glm::mat4& () { return GetTransform(); }
+
+		glm::mat4 GetTransform() const {
+			return glm::translate(Position)*
+					glm::toMat4(glm::quat(Rotation))*
+					glm::scale(Scale);
+		}
 	};
 
 	struct SpriteRenderer {

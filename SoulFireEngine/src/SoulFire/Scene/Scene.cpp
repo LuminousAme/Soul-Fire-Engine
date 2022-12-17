@@ -28,15 +28,15 @@ namespace SoulFire {
 				TextureProps props = TextureProps();
 				props.tint = sprite.m_color;
 				props.tilingFactor = sprite.m_tilingFactor;
-				Renderer2D::DrawQuad(trans.m_transform, sprite.m_subsprite, props);
+				Renderer2D::DrawQuad(trans.GetTransform(), sprite.m_subsprite, props);
 			}
 			else if (sprite.m_fullsprite != nullptr) {
 				TextureProps props = TextureProps();
 				props.tint = sprite.m_color;
 				props.tilingFactor = sprite.m_tilingFactor;
-				Renderer2D::DrawQuad(trans.m_transform, sprite.m_fullsprite, props);
+				Renderer2D::DrawQuad(trans.GetTransform(), sprite.m_fullsprite, props);
 			}
-			else Renderer2D::DrawQuad(trans.m_transform, sprite.m_color);
+			else Renderer2D::DrawQuad(trans.GetTransform(), sprite.m_color);
 		}
 	}
 

@@ -32,7 +32,7 @@ namespace SoulFire {
 	{
 		shader->Bind();
 		shader->SetUniformMatrix("u_ViewProjection", s_SceneData->VP);
-		shader->SetUniformMatrix("u_Model", trans.m_transform);
+		shader->SetUniformMatrix("u_Model", trans.GetTransform());
 		RenderCommand::Draw(VAO);
 		shader->UnBind();
 	}
