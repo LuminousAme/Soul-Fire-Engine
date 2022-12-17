@@ -7,6 +7,21 @@
 #include "SoulFire/Platforms/OpenGL/OpenGLBuffer.h"
 
 namespace SoulFire {
+	sptr<VertexBuffer> VertexBuffer::Create(uint32_t size)
+	{
+		switch (Renderer::GetAPI())
+		{
+		case RendererAPI::API::NONE:
+			SF_ENGINE_LOG_ERROR("No graphics API selected");
+			return nullptr;
+		case RendererAPI::API::OPENGL:
+			return std::make_shared<OpenGLVertexBuffer>( size);
+		}
+
+		SF_ENGINE_LOG_ERROR("Unknown Graphics API");
+		return nullptr;
+	}
+
 
 	sptr<VertexBuffer> VertexBuffer::Create(float* vertices, uint32_t size)
 	{
@@ -23,7 +38,7 @@ namespace SoulFire {
 		return nullptr;
 	}
 
-	sptr<IndexBuffer> IndexBuffer::Create(uint32_t* indices, uint32_t size)
+	sptr<IndexBuffer> IndexBuffer::Create(uint32_t* indices, uint32_t count)
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -31,7 +46,7 @@ namespace SoulFire {
 			SF_ENGINE_LOG_ERROR("No graphics API selected");
 			return nullptr;
 		case RendererAPI::API::OPENGL:
-			return std::make_shared<OpenGLIndexBuffer>(indices, size);
+			return std::make_shared<OpenGLIndexBuffer>(indices, count);
 		}
 
 		SF_ENGINE_LOG_ERROR("Unknown Graphics API");

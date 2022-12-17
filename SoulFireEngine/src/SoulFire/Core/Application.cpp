@@ -18,8 +18,6 @@ namespace SoulFire {
 
 	Application* Application::s_Instance = nullptr;
 
-
-
 	Application::Application()
 	{
 		//save the singleton

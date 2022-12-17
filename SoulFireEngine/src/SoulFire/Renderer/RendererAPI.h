@@ -21,7 +21,7 @@ namespace SoulFire {
 		virtual void Clear(RendererEnums::ClearFlags flags, float depthClearValue) = 0;
 		virtual void Clear(RendererEnums::ClearFlags flags, const glm::vec4& color, float depthClearValue = 1.0f) = 0;
 		
-		virtual void Draw(const sptr<VertexArrayObject>& VAO) = 0;
+		virtual void Draw(const sptr<VertexArrayObject>& VAO, uint32_t indexCount = 0) = 0;
 
 		virtual void UseDepthTest(bool useDepth) = 0;
 

@@ -5,11 +5,20 @@
 
 namespace SoulFire {
 	OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, uint32_t size)
-		: m_count(sizeof(vertices) / sizeof(float))
+		: m_count(sizeof(vertices) / sizeof(float)), m_size(size)
 	{
 		glCreateBuffers(1, &m_handle);
 		Bind();
 		glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
+		UnBind();
+	}
+
+	OpenGLVertexBuffer::OpenGLVertexBuffer(uint32_t size)
+		: m_count(0), m_size(size)
+	{
+		glCreateBuffers(1, &m_handle);
+		Bind();
+		glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
 		UnBind();
 	}
 
@@ -26,6 +35,12 @@ namespace SoulFire {
 	void OpenGLVertexBuffer::UnBind() const
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+
+	void OpenGLVertexBuffer::SetData(const void* data, uint32_t size)
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, m_handle);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
 	}
 
 	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t count)

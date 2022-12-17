@@ -22,6 +22,9 @@ void Sandbox2DLayer::Update()
 	rot += (SoulFire::Time::GetDeltaTime() * 90.0f);
 	while (rot > 360.0f) rot -= 360.0f;
 
+	m_testTextureProps.tilingFactor = 5.0f;
+	m_testTextureProps.tint = m_testColor;
+
 	//Render
 	int clearFlags = (SoulFire::ClearFlags::ClearColorBuffer | SoulFire::ClearFlags::ClearDepthBuffer);
 	SoulFire::RenderCommand::Clear(clearFlags, glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
@@ -29,7 +32,15 @@ void Sandbox2DLayer::Update()
 	SoulFire::Renderer2D::BeginRenderPass(m_testCameraController.GetCamera());
 
 	SoulFire::Renderer2D::DrawRotatedQuad(glm::vec2(-1.0f, 0.0f), glm::vec2(0.8f), rot, m_testTexture);
-	SoulFire::Renderer2D::DrawQuad(glm::vec2(0.5f, -0.5f), glm::vec2(0.5f, 0.75f), m_testColor);
+	SoulFire::Renderer2D::DrawQuad(glm::vec2(0.0f, 0.0f), glm::vec2(0.5f, 0.75f), m_testColor);
+	SoulFire::Renderer2D::DrawQuad(glm::vec2(-1.0f, -2.0f), glm::vec2(0.8f), m_testTexture);
+
+	for (float y = -5.0f; y < 5.0f; y += 0.05f) {
+		for (float x = -5.0f; x < 5.0f; x += 0.05f) {
+			glm::vec4 color = glm::vec4((x + 5.0f) / 10.0f, 0.0f, (y + 5.0f) / 10.0f, 0.7f);
+			SoulFire::Renderer2D::DrawQuad(glm::vec2(x, y), glm::vec2(0.045f, 0.045f), color);
+		}
+	}
 
 	SoulFire::Renderer2D::EndRenderPass();
 }
@@ -42,6 +53,9 @@ void Sandbox2DLayer::OnEvent(SoulFire::Event& ev)
 void Sandbox2DLayer::ImGuiRender()
 {
 	ImGui::Begin("Sandbox2D Test Layer Box");
+	std::stringstream fps;
+	fps << "fps: " << 1.0f / SoulFire::Time::GetDeltaTime();
+	ImGui::Text(fps.str().c_str());
 	ImGui::ColorEdit4("Test Colour", glm::value_ptr(m_testColor));
 	ImGui::End();
 }

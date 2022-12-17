@@ -15,7 +15,7 @@ namespace SoulFire {
 		inline static void Clear(int flags, float depthClearValue) { s_RendererAPI->Clear((RendererEnums::ClearFlags)flags, depthClearValue); }
 		inline static void Clear(int flags, const glm::vec4& color = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f), float depthClearValue = 1.0f) { s_RendererAPI->Clear((RendererEnums::ClearFlags)flags, color, depthClearValue); }
 
-		inline static void Draw(const sptr<VertexArrayObject>& VAO) { s_RendererAPI->Draw(VAO); }
+		inline static void Draw(const sptr<VertexArrayObject>& VAO, uint32_t indexCount = 0) { s_RendererAPI->Draw(VAO, indexCount); }
 
 		inline static void UseDepthTest(bool useDepth) { s_RendererAPI->UseDepthTest(useDepth); }
 		inline static void SetDepthFunction(RendererEnums::DepthFunctions depthfunc) { s_RendererAPI->SetDepthFunc(depthfunc); }

@@ -8,7 +8,7 @@
 namespace SoulFire {
 	struct TextureProps {
 		glm::vec4 tint = glm::vec4(1.0f);
-		int tilingFactor = 1.0f;
+		float tilingFactor = 1.0f;
 	};
 
 	class Renderer2D {
@@ -28,5 +28,10 @@ namespace SoulFire {
 		static void DrawRotatedQuad(const glm::vec3& pos, const glm::vec2& size, const float& rotDegrees, const glm::vec4& color);
 		static void DrawRotatedQuad(const glm::vec2& pos, const glm::vec2& size, const float& rotDegrees, const sptr<Texture2D>& texture, const TextureProps& props = TextureProps());
 		static void DrawRotatedQuad(const glm::vec3& pos, const glm::vec2& size, const float& rotDegrees, const sptr<Texture2D>& texture, const TextureProps& props = TextureProps());
+
+	private:
+		static void Flush();
+		static void StartBatch();
+		static void CheckShouldFlush();
 	};
 }

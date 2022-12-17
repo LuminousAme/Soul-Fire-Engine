@@ -19,10 +19,12 @@ private:
 	SoulFire::sptr<SoulFire::VertexArrayObject> m_testVAO = nullptr;
 	SoulFire::Transform m_testTrans;
 
-	glm::vec4 m_testColor = glm::vec4(0.2f, 0.3f, 0.8f, 1.0f);
+	glm::vec4 m_testColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
 	SoulFire::OrthograhpicCameraController m_testCameraController;
 	SoulFire::sptr<SoulFire::Texture2D> m_testTexture;
+
+	SoulFire::TextureProps m_testTextureProps;
 
 	float rot = 0;
 };

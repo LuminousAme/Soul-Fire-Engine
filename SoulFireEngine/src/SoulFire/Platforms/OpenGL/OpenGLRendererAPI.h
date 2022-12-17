@@ -16,7 +16,7 @@ namespace SoulFire {
 		void Clear(RendererEnums::ClearFlags flags, float depthClearValue) override;
 		void Clear(RendererEnums::ClearFlags flags, const glm::vec4& color, float depthClearValue) override;
 
-		void Draw(const sptr<VertexArrayObject>& VAO) override;
+		void Draw(const sptr<VertexArrayObject>& VAO, uint32_t indexCount = 0) override;
 
 		void UseDepthTest(bool useDepth) override;
 

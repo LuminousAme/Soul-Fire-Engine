@@ -22,6 +22,11 @@ namespace SoulFire {
 
 		void SetAnisotropicFiltering(const float& level) override;
 
+		virtual bool operator==(const Texture& other) const override
+		{
+			return m_handle == ((OpenGLTexture2D&)other).m_handle;
+		}
+
 	private:
 		void UpdateMinFilter() override;
 		void UpdateMagFilter() override;

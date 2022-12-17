@@ -87,10 +87,13 @@ namespace SoulFire {
 		Clear(flags, depthClearValue);
 	}
 
-	void OpenGLRendererAPI::Draw(const sptr<VertexArrayObject>& VAO)
+	void OpenGLRendererAPI::Draw(const sptr<VertexArrayObject>& VAO, uint32_t indexCount)
 	{
 		VAO->Bind();
-		if (VAO->GetIndexBuffer() != nullptr) {
+		if (indexCount != 0) {
+			glDrawElements(GL_TRIANGLES, indexCount, IndexElementTypeToOpenGLNativeType(VAO->GetIndexBuffer()->GetElementType()), nullptr);
+		}
+		else if (VAO->GetIndexBuffer() != nullptr) {
 			glDrawElements(GL_TRIANGLES, VAO->GetIndexBuffer()->GetCount(), IndexElementTypeToOpenGLNativeType(VAO->GetIndexBuffer()->GetElementType()), nullptr);
 		}
 		else {
