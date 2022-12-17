@@ -144,7 +144,7 @@ namespace SoulFire {
 
 		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 		glm::vec2 currentViewportSize = { viewportPanelSize.x, m_viewportSize.y };
-		if (currentViewportSize != m_viewportSize) {
+		if (currentViewportSize != m_viewportSize && currentViewportSize.x > 0 && currentViewportSize.y > 0) {
 			m_viewportSize = currentViewportSize;
 			m_framebuffer->Resize((uint32_t)m_viewportSize.x, (uint32_t)m_viewportSize.y);
 			m_testCameraController.Resize(m_viewportSize.x, m_viewportSize.y);

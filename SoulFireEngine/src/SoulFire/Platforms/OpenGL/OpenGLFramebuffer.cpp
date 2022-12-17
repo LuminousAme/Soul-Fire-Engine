@@ -5,6 +5,7 @@
 #include "OpenGLFramebuffer.h"
 
 namespace SoulFire {
+	static const uint32_t s_MaxFramebufferSize = 8192;
 
 	OpenGLDepthTarget::~OpenGLDepthTarget()
 	{
@@ -153,6 +154,11 @@ namespace SoulFire {
 
 	void OpenGLFramebuffer::Resize(const uint32_t& width, const uint32_t& height)
 	{
+		if (width == 0 || height == 0 || width > s_MaxFramebufferSize || height > s_MaxFramebufferSize) {
+			SF_ENGINE_LOG_WARNING("Attempted to resize framebuffer to {0}, {1}. Acceptable range is 1-{2}", width, height, s_MaxFramebufferSize);
+			return;
+		}
+
 		m_spec.Width = width;
 		m_spec.Height = height;
 		Recreate();
