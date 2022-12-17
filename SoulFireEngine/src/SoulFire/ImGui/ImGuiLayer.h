@@ -17,14 +17,17 @@ namespace SoulFire {
 		void Attach() override;
 		void Detach() override;
 		void ImGuiRender() override;
+
+		void OnEvent(Event& ev) override;
 	
 		void Begin();
 		void End();
 
-
+		void BlockEvents(bool block) { m_BlockEvents = block; }
 	private:
-
+		bool BlockEventFunc(Event& ev);
 	private:
+		bool m_BlockEvents = true;
 		float m_time = 0.0f;
 	};
 }

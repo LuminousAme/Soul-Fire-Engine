@@ -61,6 +61,25 @@ namespace SoulFire {
 	{
 	}
 
+	void ImGuiLayer::OnEvent(Event& ev)
+	{
+		if (m_BlockEvents) {
+			ImGuiIO& io = ImGui::GetIO();
+			if (io.WantCaptureMouse || io.WantCaptureKeyboard) {
+				EventDispatcher dispatcher(ev);
+
+				dispatcher.Dispatch<KeyPressedEvent>(SF_BIND_EVENT_FN(ImGuiLayer::BlockEventFunc));
+				dispatcher.Dispatch<KeyReleasedEvent>(SF_BIND_EVENT_FN(ImGuiLayer::BlockEventFunc));
+				dispatcher.Dispatch<KeyTypedEvent>(SF_BIND_EVENT_FN(ImGuiLayer::BlockEventFunc));
+
+				dispatcher.Dispatch<MouseMovedEvent>(SF_BIND_EVENT_FN(ImGuiLayer::BlockEventFunc));
+				dispatcher.Dispatch<MouseScrolledEvent>(SF_BIND_EVENT_FN(ImGuiLayer::BlockEventFunc));
+				dispatcher.Dispatch<MouseButtonPressedEvent>(SF_BIND_EVENT_FN(ImGuiLayer::BlockEventFunc));
+				dispatcher.Dispatch<MouseButtonReleasedEvent>(SF_BIND_EVENT_FN(ImGuiLayer::BlockEventFunc));
+			}
+		}
+	}
+
 	void ImGuiLayer::Begin()
 	{
 		ImGui_ImplOpenGL3_NewFrame();
@@ -87,5 +106,11 @@ namespace SoulFire {
 			ImGui::RenderPlatformWindowsDefault();
 			glfwMakeContextCurrent(current_context);
 		}
+	}
+
+	bool ImGuiLayer::BlockEventFunc(Event& ev)
+	{
+		//mark the event as handled
+		return true;
 	}
 }

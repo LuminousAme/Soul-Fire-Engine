@@ -32,8 +32,10 @@ namespace SoulFire {
 
 		float rot = 0;
 
-		bool dockspaceopen = true;
-
+	private:
+		bool m_dockspaceopen = true;
+		bool m_viewportFocused = false;
+		bool m_viewportHovered = false;
 		sptr<Framebuffer> m_framebuffer;
 		glm::vec2 m_viewportSize = glm::vec2(1280.0f, 720.0f);
 	};

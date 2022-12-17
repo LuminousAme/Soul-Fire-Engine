@@ -39,6 +39,8 @@ namespace SoulFire {
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* overlay);
 
+		ImGuiLayer* GetImGuiLayer() { return m_imguiLayer; }
+
 		inline static Application& GetApp() { return *s_Instance; };
 		inline Window& GetWindow() { return *m_window; };
 

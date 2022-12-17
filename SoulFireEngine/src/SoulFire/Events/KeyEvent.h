@@ -13,7 +13,7 @@ namespace SoulFire {
 	 int GetKeyCode() const { return m_KeyCode; }
 
 		//event type
-		EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
+	 EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 	protected:
 		//construtor
 		KeyEvent(int keyCode)

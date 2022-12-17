@@ -26,7 +26,7 @@ namespace SoulFire {
 	void EditorLayer::Update()
 	{
 		//Update
-		m_testCameraController.Update();
+		if(m_viewportFocused) m_testCameraController.Update();
 		rot += (SoulFire::Time::GetDeltaTime() * 90.0f);
 		while (rot > 360.0f) rot -= 360.0f;
 
@@ -63,7 +63,7 @@ namespace SoulFire {
 
 	void EditorLayer::ImGuiRender()
 	{
-		DockSpace(&dockspaceopen);
+		DockSpace(&m_dockspaceopen);
 
 
 	}
@@ -137,6 +137,11 @@ namespace SoulFire {
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0.0f, 0.0f });
 		ImGui::Begin("Viewport");
+
+		m_viewportFocused = ImGui::IsWindowFocused();
+		m_viewportHovered = ImGui::IsWindowHovered();
+		Application::GetApp().GetImGuiLayer()->BlockEvents(!m_viewportFocused || !m_viewportHovered);
+
 		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 		glm::vec2 currentViewportSize = { viewportPanelSize.x, m_viewportSize.y };
 		if (currentViewportSize != m_viewportSize) {
