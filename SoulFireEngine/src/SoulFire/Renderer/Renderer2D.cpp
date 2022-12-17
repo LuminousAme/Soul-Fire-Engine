@@ -268,6 +268,68 @@ namespace SoulFire {
 		s_Data2D.quadIndexCount += 6;
 	}
 
+	void Renderer2D::DrawQuad(const glm::vec2& pos, const glm::vec2& size, const sptr<SubTexture2D>& subtexture, const TextureProps& props)
+	{
+		DrawQuad(glm::vec3(pos.x, pos.y, 0.0f), size, subtexture, props);
+	}
+
+	void Renderer2D::DrawQuad(const glm::vec3& pos, const glm::vec2& size, const sptr<SubTexture2D>& subtexture, const TextureProps& props)
+	{
+		CheckShouldFlush();
+
+		float textureIndex = 0.0f;
+
+		//check if the texture is already in the draw call and grab it's index if it doesn't
+		for (uint32_t i = 1; i < s_Data2D.textureSlotIndex; i++) {
+			if (*s_Data2D.textureSlots[i].get() == *subtexture->GetTexture().get()) {
+				textureIndex = (float)i;
+				break;
+			}
+		}
+
+		//if it is not add it and give it a new index
+		if (textureIndex == 0.0f) {
+			textureIndex = (float)s_Data2D.textureSlotIndex;
+			s_Data2D.textureSlots[s_Data2D.textureSlotIndex] = subtexture->GetTexture();
+			s_Data2D.textureSlotIndex++;
+		}
+
+		//bottom left
+		s_Data2D.quadVertexPtr->Position = { pos.x - 0.5f * size.x, pos.y - 0.5f * size.y, 0.0f };
+		s_Data2D.quadVertexPtr->Color = props.tint;
+		s_Data2D.quadVertexPtr->Uv = subtexture->GetUVs()[0];
+		s_Data2D.quadVertexPtr->TexIndex = textureIndex;
+		s_Data2D.quadVertexPtr->TilingFactor = props.tilingFactor;
+		s_Data2D.quadVertexPtr++;
+
+		//bottom right
+		s_Data2D.quadVertexPtr->Position = { pos.x + 0.5f * size.x, pos.y - 0.5f * size.y, 0.0f };
+		s_Data2D.quadVertexPtr->Color = props.tint;
+		s_Data2D.quadVertexPtr->Uv = subtexture->GetUVs()[1];
+		s_Data2D.quadVertexPtr->TexIndex = textureIndex;
+		s_Data2D.quadVertexPtr->TilingFactor = props.tilingFactor;
+		s_Data2D.quadVertexPtr++;
+
+		//top right
+		s_Data2D.quadVertexPtr->Position = { pos.x + 0.5f * size.x, pos.y + 0.5f * size.y, 0.0f };
+		s_Data2D.quadVertexPtr->Color = props.tint;
+		s_Data2D.quadVertexPtr->Uv = subtexture->GetUVs()[2];
+		s_Data2D.quadVertexPtr->TexIndex = textureIndex;
+		s_Data2D.quadVertexPtr->TilingFactor = props.tilingFactor;
+		s_Data2D.quadVertexPtr++;
+
+		//top left
+		s_Data2D.quadVertexPtr->Position = { pos.x - 0.5f * size.x, pos.y + 0.5f * size.y, 0.0f };
+		s_Data2D.quadVertexPtr->Color = props.tint;
+		s_Data2D.quadVertexPtr->Uv = subtexture->GetUVs()[4];
+		s_Data2D.quadVertexPtr->TexIndex = textureIndex;
+		s_Data2D.quadVertexPtr->TilingFactor = props.tilingFactor;
+		s_Data2D.quadVertexPtr++;
+
+		//increase the quad index count
+		s_Data2D.quadIndexCount += 6;
+	}
+
 	void Renderer2D::DrawRotatedQuad(const glm::vec2& pos, const glm::vec2& size, const float& rotDegrees, const glm::vec4& color)
 	{
 		DrawRotatedQuad(glm::vec3(pos.x, pos.y, 0.0f), size, rotDegrees, color);
@@ -378,6 +440,72 @@ namespace SoulFire {
 		s_Data2D.quadVertexPtr->Position = glm::vec3(trans * s_Data2D.rotatedQuadVertexPositions[3]);
 		s_Data2D.quadVertexPtr->Color = props.tint;
 		s_Data2D.quadVertexPtr->Uv = { 0.0f, 1.0f };
+		s_Data2D.quadVertexPtr->TexIndex = textureIndex;
+		s_Data2D.quadVertexPtr->TilingFactor = props.tilingFactor;
+		s_Data2D.quadVertexPtr++;
+
+		//increase the quad index count
+		s_Data2D.quadIndexCount += 6;
+	}
+
+	void Renderer2D::DrawRotatedQuad(const glm::vec2& pos, const glm::vec2& size, const float& rotDegrees, const sptr<SubTexture2D>& subtexture, const TextureProps& props)
+	{
+		DrawRotatedQuad(glm::vec3(pos.x, pos.y, 0.0f), size, rotDegrees, subtexture, props);
+	}
+
+	void Renderer2D::DrawRotatedQuad(const glm::vec3& pos, const glm::vec2& size, const float& rotDegrees, const sptr<SubTexture2D>& subtexture, const TextureProps& props)
+	{
+		CheckShouldFlush();
+
+		float textureIndex = 0.0f;
+
+		//check if the texture is already in the draw call and grab it's index if it doesn't
+		for (uint32_t i = 1; i < s_Data2D.textureSlotIndex; i++) {
+			if (*s_Data2D.textureSlots[i].get() == *subtexture->GetTexture().get()) {
+				textureIndex = (float)i;
+				break;
+			}
+		}
+
+		//if it is not add it and give it a new index
+		if (textureIndex == 0.0f) {
+			textureIndex = (float)s_Data2D.textureSlotIndex;
+			s_Data2D.textureSlots[s_Data2D.textureSlotIndex] = subtexture->GetTexture();
+			s_Data2D.textureSlotIndex++;
+		}
+
+		glm::mat4 trans = glm::translate(pos) *
+			glm::toMat4(glm::quat(glm::radians(glm::vec3(0.0f, 0.0f, rotDegrees)))) *
+			glm::scale(glm::vec3(size.x, size.y, 1.0f));
+
+		//bottom left
+		s_Data2D.quadVertexPtr->Position = glm::vec3(trans * s_Data2D.rotatedQuadVertexPositions[0]);
+		s_Data2D.quadVertexPtr->Color = props.tint;
+		s_Data2D.quadVertexPtr->Uv = subtexture->GetUVs()[0];
+		s_Data2D.quadVertexPtr->TexIndex = textureIndex;
+		s_Data2D.quadVertexPtr->TilingFactor = props.tilingFactor;
+		s_Data2D.quadVertexPtr++;
+
+		//bottom right
+		s_Data2D.quadVertexPtr->Position = glm::vec3(trans * s_Data2D.rotatedQuadVertexPositions[1]);
+		s_Data2D.quadVertexPtr->Color = props.tint;
+		s_Data2D.quadVertexPtr->Uv = subtexture->GetUVs()[1];
+		s_Data2D.quadVertexPtr->TexIndex = textureIndex;
+		s_Data2D.quadVertexPtr->TilingFactor = props.tilingFactor;
+		s_Data2D.quadVertexPtr++;
+
+		//top right
+		s_Data2D.quadVertexPtr->Position = glm::vec3(trans * s_Data2D.rotatedQuadVertexPositions[2]);
+		s_Data2D.quadVertexPtr->Color = props.tint;
+		s_Data2D.quadVertexPtr->Uv = subtexture->GetUVs()[2];
+		s_Data2D.quadVertexPtr->TexIndex = textureIndex;
+		s_Data2D.quadVertexPtr->TilingFactor = props.tilingFactor;
+		s_Data2D.quadVertexPtr++;
+
+		//top left
+		s_Data2D.quadVertexPtr->Position = glm::vec3(trans * s_Data2D.rotatedQuadVertexPositions[3]);
+		s_Data2D.quadVertexPtr->Color = props.tint;
+		s_Data2D.quadVertexPtr->Uv = subtexture->GetUVs()[3];
 		s_Data2D.quadVertexPtr->TexIndex = textureIndex;
 		s_Data2D.quadVertexPtr->TilingFactor = props.tilingFactor;
 		s_Data2D.quadVertexPtr++;

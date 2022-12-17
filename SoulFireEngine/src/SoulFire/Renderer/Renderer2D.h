@@ -4,6 +4,7 @@
 
 #include "SoulFire/Renderer/Camera.h"
 #include "SoulFire/Renderer/Texture.h"
+#include "SoulFire/Renderer/SubTexture2D.h"
 
 namespace SoulFire {
 	struct TextureProps {
@@ -23,11 +24,15 @@ namespace SoulFire {
 		static void DrawQuad(const glm::vec3& pos, const glm::vec2& size, const glm::vec4& color);
 		static void DrawQuad(const glm::vec2& pos, const glm::vec2& size, const sptr<Texture2D>& texture, const TextureProps& props = TextureProps());
 		static void DrawQuad(const glm::vec3& pos, const glm::vec2& size, const sptr<Texture2D>& texture, const TextureProps& props = TextureProps());
+		static void DrawQuad(const glm::vec2& pos, const glm::vec2& size, const sptr<SubTexture2D>& subtexture, const TextureProps& props = TextureProps());
+		static void DrawQuad(const glm::vec3& pos, const glm::vec2& size, const sptr<SubTexture2D>& subtexture, const TextureProps& props = TextureProps());
 
 		static void DrawRotatedQuad(const glm::vec2& pos, const glm::vec2& size, const float& rotDegrees, const glm::vec4& color);
 		static void DrawRotatedQuad(const glm::vec3& pos, const glm::vec2& size, const float& rotDegrees, const glm::vec4& color);
 		static void DrawRotatedQuad(const glm::vec2& pos, const glm::vec2& size, const float& rotDegrees, const sptr<Texture2D>& texture, const TextureProps& props = TextureProps());
 		static void DrawRotatedQuad(const glm::vec3& pos, const glm::vec2& size, const float& rotDegrees, const sptr<Texture2D>& texture, const TextureProps& props = TextureProps());
+		static void DrawRotatedQuad(const glm::vec2& pos, const glm::vec2& size, const float& rotDegrees, const sptr<SubTexture2D>& subtexture, const TextureProps& props = TextureProps());
+		static void DrawRotatedQuad(const glm::vec3& pos, const glm::vec2& size, const float& rotDegrees, const sptr<SubTexture2D>& subtexture, const TextureProps& props = TextureProps());
 
 	private:
 		static void Flush();

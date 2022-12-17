@@ -58,14 +58,19 @@ namespace SoulFire {
 	{
 		m_zoomlevel -= ev.GetOffsetY() * m_zoomspeed;
 		m_zoomlevel = glm::max(m_zoomlevel, 0.25f);
-		m_camera->UpdateProjection(-m_aspectratio * m_zoomlevel, m_aspectratio * m_zoomlevel, -m_zoomlevel, m_zoomlevel);
+		UpdateCamera();
 		return false;
 	}
 
 	bool OrthograhpicCameraController::OnWindowResized(WindowResizeEvent& ev)
 	{
 		m_aspectratio = (float)ev.GetWidth() / (float)ev.GetHeight();
-		m_camera->UpdateProjection(-m_aspectratio * m_zoomlevel, m_aspectratio * m_zoomlevel, -m_zoomlevel, m_zoomlevel);
+		UpdateCamera();
 		return false;
+	}
+
+	void OrthograhpicCameraController::UpdateCamera()
+	{
+		m_camera->UpdateProjection(-m_aspectratio * m_zoomlevel, m_aspectratio * m_zoomlevel, -m_zoomlevel, m_zoomlevel);
 	}
 }

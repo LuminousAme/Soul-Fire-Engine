@@ -19,12 +19,13 @@ namespace SoulFire {
 
 		sptr<Camera> GetCamera() const { return m_camera; }
 
-		void SetZoomLevel(const float& level) { m_zoomlevel = level; }
+		void SetZoomLevel(const float& level) { m_zoomlevel = level; UpdateCamera(); }
 		float GetZoomLevel() const { return m_zoomlevel; }
 	private:
 		bool OnMouseScrolled(MouseScrolledEvent& ev);
 		bool OnWindowResized(WindowResizeEvent& ev);
 
+		void UpdateCamera();
 	private:
 		float m_aspectratio;
 		float m_zoomlevel;
