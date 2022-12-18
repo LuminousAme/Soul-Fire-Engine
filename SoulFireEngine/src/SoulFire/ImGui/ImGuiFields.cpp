@@ -48,6 +48,7 @@ namespace SoulFire {
 	bool ImGuiFields::LeftAlignedButton(const std::string& label, glm::vec2 size)
 	{
 		bool pressed = false;
+		Space(0.0f);
 		ImGui::SameLine(5.0f);
 		pressed = ImGui::Button(label.c_str());
 		return pressed;
@@ -56,6 +57,7 @@ namespace SoulFire {
 	bool ImGuiFields::RightAlignedButton(const std::string& label, glm::vec2 size)
 	{
 		bool pressed = false;
+		Space(0.0f);
 		ImGui::SameLine(ImGui::GetWindowWidth() - (size.x + 5.0f));
 		pressed = ImGui::Button(label.c_str());
 		return pressed;
@@ -64,6 +66,7 @@ namespace SoulFire {
 	bool ImGuiFields::CentreAlignedButton(const std::string& label, glm::vec2 size)
 	{
 		bool pressed = false;
+		Space(0.0f);
 		ImGui::SameLine((ImGui::GetWindowWidth() / 2.0f) - (0.5f * (size.x + 2.5f)));
 		pressed = ImGui::Button(label.c_str());
 		return pressed;

@@ -108,6 +108,84 @@ namespace SoulFire {
 		}
 	}
 
+	void ImGuiLayer::SetDarkThemeColors()
+	{
+		ImGui::StyleColorsDark();
+		auto& colors = ImGui::GetStyle().Colors;
+		colors[ImGuiCol_WindowBg] = ImVec4{ 0.05f, 0.0505f, 0.051f, 1.0f };
+
+		//Headers
+		colors[ImGuiCol_Header] = ImVec4{ 0.1f, 0.105f, 0.11f, 1.0f };
+		colors[ImGuiCol_HeaderHovered] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
+		colors[ImGuiCol_HeaderActive] = ImVec4{ 0.075f, 0.07505f, 0.0751f, 1.0f };
+
+		//Buttons
+		colors[ImGuiCol_Button] = ImVec4{ 0.2f, 0.205f, 0.21f, 1.0f };
+		colors[ImGuiCol_ButtonHovered] = ImVec4{ 0.3f, 0.305f, 0.31f, 1.0f };
+		colors[ImGuiCol_ButtonActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
+
+		//Frame backgrounds
+		colors[ImGuiCol_FrameBg] = ImVec4{ 0.2f, 0.205f, 0.21f, 1.0f };
+		colors[ImGuiCol_FrameBgHovered] = ImVec4{ 0.3f, 0.305f, 0.31f, 1.0f };
+		colors[ImGuiCol_FrameBgActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
+
+		//Tabs
+		colors[ImGuiCol_Tab] = ImVec4{ 0.075f, 0.07505f, 0.075f, 1.0f };
+		colors[ImGuiCol_TabHovered] = ImVec4{ 0.18f, 0.1805f, 0.181f, 1.0f };
+		colors[ImGuiCol_TabActive] = ImVec4{ 0.14f, 0.1405f, 0.141f, 1.0f };
+		colors[ImGuiCol_TabUnfocused] = ImVec4{ 0.075f, 0.07505f, 0.0751f, 1.0f };
+		colors[ImGuiCol_TabUnfocusedActive] = ImVec4{ 0.1f, 0.105f, 0.11f, 1.0f };
+
+		//Title
+		colors[ImGuiCol_TitleBg] = ImVec4{ 0.075f, 0.07505f, 0.0751f, 1.0f };
+		colors[ImGuiCol_TitleBgActive] = ImVec4{ 0.075f, 0.07505f, 0.0751f, 1.0f };
+		colors[ImGuiCol_TitleBgCollapsed] = ImVec4{ 0.075f, 0.07505f, 0.0751f, 1.0f };
+
+		//misc
+		colors[ImGuiCol_CheckMark] = ImVec4{0.8f, 0.8f, 0.8f, 1.0f};
+		colors[ImGuiCol_Text] = ImVec4{1.0f, 1.0f, 1.0f, 1.0f};
+		colors[ImGuiCol_MenuBarBg] = ImVec4{ 0.1f, 0.105f, 0.11f, 1.0f };
+	}
+
+	void ImGuiLayer::SetLightThemeColors()
+	{
+		ImGui::StyleColorsLight();
+		auto& colors = ImGui::GetStyle().Colors;
+		colors[ImGuiCol_WindowBg] = ImVec4{ 0.85f, 0.8505f, 0.851f, 1.0f };
+
+		//Headers
+		colors[ImGuiCol_Header] = ImVec4{ 0.8f, 0.805f, 0.81f, 1.0f };
+		colors[ImGuiCol_HeaderHovered] = ImVec4{ 0.675f, 0.67505f, 0.6751f, 1.0f };
+		colors[ImGuiCol_HeaderActive] = ImVec4{ 0.85f, 0.8505f, 0.851f, 1.0f };
+
+		//Buttons
+		colors[ImGuiCol_Button] = ImVec4{ 0.7f, 0.705f, 0.71f, 1.0f };
+		colors[ImGuiCol_ButtonHovered] = ImVec4{ 0.6f, 0.605f, 0.61f, 1.0f };
+		colors[ImGuiCol_ButtonActive] = ImVec4{ 0.85f, 0.8505f, 0.851f, 1.0f };
+
+		//Frame backgrounds
+		colors[ImGuiCol_FrameBg] = ImVec4{ 0.7f, 0.705f, 0.71f, 1.0f };
+		colors[ImGuiCol_FrameBgHovered] = ImVec4{ 0.6f, 0.605f, 0.61f, 1.0f };
+		colors[ImGuiCol_FrameBgActive] = ImVec4{ 0.75f, 0.7505f, 0.751f, 1.0f };
+
+		//Tabs
+		colors[ImGuiCol_Tab] = ImVec4{ 0.8f, 0.805f, 0.81f, 1.0f };
+		colors[ImGuiCol_TabHovered] = ImVec4{ 0.68f, 0.6805f, 0.681f, 1.0f };
+		colors[ImGuiCol_TabActive] = ImVec4{ 0.64f, 0.6405f, 0.641f, 1.0f };
+		colors[ImGuiCol_TabUnfocused] = ImVec4{ 0.775f, 0.77505f, 0.7751f, 1.0f };
+		colors[ImGuiCol_TabUnfocusedActive] = ImVec4{ 0.8f, 0.805f, 0.81f, 1.0f };
+
+		//Title
+		colors[ImGuiCol_TitleBg] = ImVec4{ 0.775f, 0.77505f, 0.7751f, 1.0f };
+		colors[ImGuiCol_TitleBgActive] = ImVec4{ 0.775f, 0.77505f, 0.7751f, 1.0f };
+		colors[ImGuiCol_TitleBgCollapsed] = ImVec4{ 0.775f, 0.77505f, 0.7751f, 1.0f };
+
+		//misc
+		colors[ImGuiCol_CheckMark] = ImVec4{ 0.1f, 0.1f, 0.1f, 1.0f };
+		colors[ImGuiCol_Text] = ImVec4{ 0.0f, 0.0f, 0.0f, 1.0f };
+		colors[ImGuiCol_MenuBarBg] = ImVec4{ 0.8f, 0.805f, 0.81f, 1.0f };
+	}
+
 	bool ImGuiLayer::BlockEventFunc(Event& ev)
 	{
 		//mark the event as handled

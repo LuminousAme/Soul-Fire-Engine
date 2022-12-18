@@ -24,6 +24,9 @@ namespace SoulFire {
 		void End();
 
 		void BlockEvents(bool block) { m_BlockEvents = block; }
+
+		void SetDarkThemeColors();
+		void SetLightThemeColors();
 	private:
 		bool BlockEventFunc(Event& ev);
 	private:

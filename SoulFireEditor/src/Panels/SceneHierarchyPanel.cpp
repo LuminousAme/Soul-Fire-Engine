@@ -46,6 +46,7 @@ namespace SoulFire {
 
 		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow;
 		flags |= (entity == m_selectionContext) ? ImGuiTreeNodeFlags_Selected : 0;
+		flags |= ImGuiTreeNodeFlags_SpanAvailWidth;
 		bool expanded = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, flags, name.c_str());
 
 		if (ImGui::IsItemClicked()) {

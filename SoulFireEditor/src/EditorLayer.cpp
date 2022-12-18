@@ -19,6 +19,8 @@ namespace SoulFire {
 		spec.Height = SoulFire::Application::GetApp().GetWindow().GetWidth();
 		m_framebuffer = SoulFire::Framebuffer::Create(spec);
 
+		SoulFire::Application::GetApp().GetImGuiLayer()->SetDarkThemeColors();
+
 		m_NecoArcEntity = m_activeScene->CreateEntity("Neco Arc");
 		m_NecoArcEntity.AddComponent<SpriteRenderer>(m_testTexture);
 
@@ -46,7 +48,7 @@ namespace SoulFire {
 		m_framebuffer->Bind();
 		m_framebuffer->SetViewport();
 		int clearFlags = (SoulFire::ClearFlags::ClearColorBuffer | SoulFire::ClearFlags::ClearDepthBuffer);
-		SoulFire::RenderCommand::Clear(clearFlags, glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
+		SoulFire::RenderCommand::Clear(clearFlags, glm::vec4(0.3f, 0.3f, 0.5f, 1.0f));
 
 		//SoulFire::Renderer2D::BeginRenderPass(m_testCameraController.GetCamera());
 
