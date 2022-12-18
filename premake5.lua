@@ -24,14 +24,14 @@ IncludeDirTable["GLM"] = "SoulFireEngine/dependencies/glm/include"
 IncludeDirTable["ImGui"] = "SoulFireEngine/dependencies/Imgui"
 IncludeDirTable["stb_image"] = "SoulFireEngine/dependencies/stb_image"
 IncludeDirTable["ENTT"] = "SoulFireEngine/dependencies/ENTT/include"
-IncludeDirTable["yaml_cpp"] = "SoulFireEngine/dependencies/yaml-cpp/include"
+IncludeDirTable["yaml_cpp"] = "SoulFireEngine/dependencies/yaml_cpp/include"
 
 -- include the glfw premake
 group "Dependencies"
 	include "SoulFireEngine/dependencies/glfw3"
 	include "SoulFireEngine/dependencies/Glad"
 	include "SoulFireEngine/dependencies/Imgui"
-	include "SoulFireEngine/dependencies/yaml-cpp"
+	include "SoulFireEngine/dependencies/yaml_cpp"
 
 group ""
 
