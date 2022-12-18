@@ -24,12 +24,14 @@ IncludeDirTable["GLM"] = "SoulFireEngine/dependencies/glm/include"
 IncludeDirTable["ImGui"] = "SoulFireEngine/dependencies/Imgui"
 IncludeDirTable["stb_image"] = "SoulFireEngine/dependencies/stb_image"
 IncludeDirTable["ENTT"] = "SoulFireEngine/dependencies/ENTT/include"
+IncludeDirTable["yaml_cpp"] = "SoulFireEngine/dependencies/yaml-cpp/include"
 
 -- include the glfw premake
 group "Dependencies"
 	include "SoulFireEngine/dependencies/glfw3"
 	include "SoulFireEngine/dependencies/Glad"
 	include "SoulFireEngine/dependencies/Imgui"
+	include "SoulFireEngine/dependencies/yaml-cpp"
 
 group ""
 
@@ -68,7 +70,8 @@ project "SoulFireEngine"
 		"%{IncludeDirTable.GLM}",
 		"%{IncludeDirTable.ImGui}",
 		"%{IncludeDirTable.stb_image}",
-		"%{IncludeDirTable.ENTT}"
+		"%{IncludeDirTable.ENTT}",
+		"%{IncludeDirTable.yaml_cpp}"
 	}
 
 	links {
@@ -125,7 +128,8 @@ project "SoulFireEditor"
 		"SoulFireEngine/src",
 		"SoulFireEngine/dependencies",
 		"%{IncludeDirTable.GLM}",
-		"%{IncludeDirTable.ENTT}"
+		"%{IncludeDirTable.ENTT}",
+		"%{IncludeDirTable.yaml_cpp}"
 	}
 
 	links
