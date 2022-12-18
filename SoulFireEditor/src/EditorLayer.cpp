@@ -3,7 +3,7 @@
 namespace SoulFire {
 
 	EditorLayer::EditorLayer()
-		: Layer("EditorLayer"), m_testCameraController(SoulFire::Application::GetApp().GetWindow().GetAspectRatio())
+		: Layer("EditorLayer")
 	{
 	}
 
@@ -22,8 +22,8 @@ namespace SoulFire {
 		m_NecoArcEntity = m_activeScene->CreateEntity("Neco Arc");
 		m_NecoArcEntity.AddComponent<SpriteRenderer>(m_testTexture);
 
-		Entity NecoArcEntity2 = m_activeScene->CreateEntity("Neco Arc 2!!!");
-		NecoArcEntity2.AddComponent<SpriteRenderer>(m_testTexture);
+		m_CameraEntity = m_activeScene->CreateEntity("Camera");
+		m_CameraEntity.AddComponent<CameraComponent>();
 
 		m_hierarchyPanel.SetContext(m_activeScene);
 	}
@@ -35,7 +35,7 @@ namespace SoulFire {
 	void EditorLayer::Update()
 	{
 		//Update
-		if(m_viewportFocused) m_testCameraController.Update();
+		//if(m_viewportFocused) m_testCameraController.Update();
 		rot += (SoulFire::Time::GetDeltaTime() * 90.0f);
 		while (rot > 360.0f) rot -= 360.0f;
 
@@ -48,19 +48,19 @@ namespace SoulFire {
 		int clearFlags = (SoulFire::ClearFlags::ClearColorBuffer | SoulFire::ClearFlags::ClearDepthBuffer);
 		SoulFire::RenderCommand::Clear(clearFlags, glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
 
-		SoulFire::Renderer2D::BeginRenderPass(m_testCameraController.GetCamera());
+		//SoulFire::Renderer2D::BeginRenderPass(m_testCameraController.GetCamera());
 
 		m_activeScene->Update();
 
 		//SoulFire::Renderer2D::DrawRotatedQuad(glm::vec2(-1.0f, 0.0f), glm::vec2(0.8f), rot, m_testTexture);
 
-		SoulFire::Renderer2D::EndRenderPass();
+		//SoulFire::Renderer2D::EndRenderPass();
 		m_framebuffer->UnBind();
 	}
 
 	void EditorLayer::OnEvent(SoulFire::Event& ev)
 	{
-		m_testCameraController.OnEvent(ev);
+		//m_testCameraController.OnEvent(ev);
 	}
 
 	void EditorLayer::ImGuiRender()
@@ -144,7 +144,8 @@ namespace SoulFire {
 		if (currentViewportSize != m_viewportSize && currentViewportSize.x > 0 && currentViewportSize.y > 0) {
 			m_viewportSize = currentViewportSize;
 			m_framebuffer->Resize((uint32_t)m_viewportSize.x, (uint32_t)m_viewportSize.y);
-			m_testCameraController.Resize(m_viewportSize.x, m_viewportSize.y);
+			//m_testCameraController.Resize(m_viewportSize.x, m_viewportSize.y);
+			m_activeScene->OnViewportResize((uint32_t)m_viewportSize.x, (uint32_t)m_viewportSize.y);
 		}
 
 		uint32_t textID = m_framebuffer->GetColorAttachmentHandle(0);

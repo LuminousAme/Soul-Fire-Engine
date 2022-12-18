@@ -23,7 +23,6 @@ namespace SoulFire {
 		//TEMP
 		glm::vec4 m_testColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
-		OrthograhpicCameraController m_testCameraController;
 		sptr<SoulFire::Texture2D> m_testTexture;
 
 		TextureProps m_testTextureProps;
@@ -33,6 +32,7 @@ namespace SoulFire {
 	private: 
 		sptr<Scene> m_activeScene;
 		Entity m_NecoArcEntity;
+		Entity m_CameraEntity;
 	private:
 		bool m_dockspaceopen = true;
 		bool m_viewportFocused = false;

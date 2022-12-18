@@ -5,6 +5,7 @@
 #include "SF_PCH.h"
 #include "SoulFire/Renderer/Texture.h"
 #include "SoulFire/Renderer/SubTexture2D.h"
+#include "SceneCamera.h"
 
 namespace SoulFire {
 	struct InfoComponent {
@@ -56,5 +57,14 @@ namespace SoulFire {
 		SpriteRenderer(sptr<SubTexture2D> subtexture, const glm::vec4& color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), const float tilingFactor = 1.0f)
 			: m_color(color), m_fullsprite(nullptr), m_subsprite(subtexture), m_tilingFactor(tilingFactor) {
 		}
+	};
+
+	struct CameraComponent {
+		SceneCamera camera;
+		bool main = true; //move to scene eventually
+		bool fixedAspectRatio = false;
+
+		CameraComponent() = default;
+		CameraComponent(const CameraComponent&) = default;
 	};
 }

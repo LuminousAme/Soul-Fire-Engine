@@ -78,4 +78,17 @@ namespace SoulFire {
 		float m_aspectiveRatio;
 		float m_fov;
 	};
+
+	class RuntimeCamera {
+	public:
+		RuntimeCamera() = default;
+		RuntimeCamera(const glm::mat4& projection)
+			: m_projection(projection) {}
+
+		virtual ~RuntimeCamera() = default;
+
+		const glm::mat4& GetProjection() const { return m_projection; }
+	protected:
+		glm::mat4 m_projection = glm::mat4(1.0f);
+	};
 }

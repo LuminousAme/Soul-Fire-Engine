@@ -23,6 +23,7 @@ namespace SoulFire {
 		static void Shutdown();
 
 		static void BeginRenderPass(const sptr<Camera>& cam);
+		static void BeginRenderPass(const RuntimeCamera& cam, const glm::mat4& transform);
 		static void EndRenderPass();
 
 		static void DrawQuad(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color);

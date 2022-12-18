@@ -3,6 +3,7 @@
 
 #include "SceneHierarchyPanel.h"
 #include "Imgui/imgui.h"
+#include "SoulFire/ImGui/ImGuiFields.h"
 
 namespace SoulFire {
 	SceneHierarchyPanel::SceneHierarchyPanel(const sptr<Scene>& scene)
@@ -27,6 +28,15 @@ namespace SoulFire {
 		if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
 			m_selectionContext = Entity();
 
+		//right clicking on a blank space
+		if (ImGui::BeginPopupContextWindow(0, 1, false)) {
+			ImGuiFields::Text("Create Entity");
+			ImGuiFields::Seperator();
+			if(ImGui::MenuItem("Empty")) m_context->CreateEntity();
+
+			ImGui::EndPopup();
+		}
+
 		ImGui::End();
 	}
 
@@ -42,8 +52,21 @@ namespace SoulFire {
 			m_selectionContext = entity;
 		}
 
+		bool deleteEntity = false;
+		if (ImGui::BeginPopupContextItem()) {
+			if (ImGui::MenuItem("Delete Entity")) deleteEntity = true;
+
+			ImGui::EndPopup();
+		}
+
 		if (expanded) {
+			//child nodes here
 			ImGui::TreePop();
+		}
+
+		if (deleteEntity) {
+			if (m_selectionContext == entity) m_selectionContext = Entity();
+			m_context->Destroy(entity);
 		}
 	}
 }

@@ -16,6 +16,7 @@ namespace SoulFire {
 		template<typename T, typename... Args>
 		T& AddComponent(Args&&... args) {
 			SF_ENGINE_LOG_ASSERT(!HasComponent<T>(), "Entity already has component");
+			if (m_scene != nullptr && std::is_same<T, CameraComponent>::value) m_scene->newCameraEntities.push_back(*this);
 			return m_scene->m_registry.emplace<T>(m_handle, std::forward<Args>(args)...);
 		}
 
@@ -42,6 +43,7 @@ namespace SoulFire {
 
 		operator bool() { return m_handle != entt::null; }
 		operator uint32_t() { return (uint32_t)m_handle; }
+		operator entt::entity() { return m_handle; }
 
 		bool operator==(const Entity& other) const {
 			return m_handle == other.m_handle && m_scene == other.m_scene;

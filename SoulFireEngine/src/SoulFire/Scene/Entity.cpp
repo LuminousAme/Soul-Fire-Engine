@@ -10,6 +10,7 @@ namespace SoulFire {
 		: m_handle(handle), m_scene(scene)
 	{
 	}
+
 	std::string& Entity::GetName()
 	{
 		return GetComponent<InfoComponent>().m_name;

@@ -116,6 +116,19 @@ namespace SoulFire {
 		StartBatch();
 	}
 
+	void Renderer2D::BeginRenderPass(const RuntimeCamera& cam, const glm::mat4& transform)
+	{
+		glm::mat4 Projection = cam.GetProjection();
+		glm::mat4 View = glm::inverse(transform);
+		glm::mat4 VP = cam.GetProjection() * glm::inverse(transform);
+
+		s_Data2D.textureShader->Bind();
+		s_Data2D.textureShader->SetUniformMatrix("u_ViewProjection", VP);
+
+		//start the first batch
+		StartBatch();
+	}
+
 	void Renderer2D::EndRenderPass()
 	{
 		Flush();

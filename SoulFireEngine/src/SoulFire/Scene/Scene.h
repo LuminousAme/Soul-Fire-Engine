@@ -15,12 +15,18 @@ namespace SoulFire {
 		~Scene();
 
 		void Update();
+		void OnViewportResize(uint32_t width, uint32_t height);
 
 		Entity CreateEntity(const std::string& name = "Entity", const std::string& tag = std::string());
+		void Destroy(Entity entity);
 
 		static sptr<Scene> Create() { return std::make_shared<Scene>(); }
 	private:
+
+	private:
 		entt::registry m_registry;
+		uint32_t m_viewportWidth = 0, m_viewportHeight = 0;
+		std::vector<Entity> newCameraEntities;
 
 		friend class Entity;
 		friend class SceneHierarchyPanel;
