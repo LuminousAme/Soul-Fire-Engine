@@ -28,6 +28,9 @@ namespace SoulFire {
 		m_CameraEntity.AddComponent<CameraComponent>();
 
 		m_hierarchyPanel.SetContext(m_activeScene);
+
+		SceneSerializer serializer(m_activeScene);
+		serializer.Serialize("assets/scenes/Example.SF");
 	}
 
 	void EditorLayer::Detach()

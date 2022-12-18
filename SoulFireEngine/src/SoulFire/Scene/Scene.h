@@ -29,6 +29,7 @@ namespace SoulFire {
 		std::vector<Entity> newCameraEntities;
 
 		friend class Entity;
+		friend class SceneSerializer;
 		friend class SceneHierarchyPanel;
 	};
 }

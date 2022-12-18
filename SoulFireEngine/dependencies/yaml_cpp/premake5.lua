@@ -21,6 +21,10 @@ project "yaml_cpp"
         systemversion "latest"
 		cppdialect "C++17"
 		staticruntime "On"
+		defines 
+		{
+			"YAML_CPP_STATIC_DEFINE"
+		}
 
 	filter "configurations:Debug"
 		defines "SF_DEBUG"
